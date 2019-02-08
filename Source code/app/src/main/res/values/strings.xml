@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">talking_crocodile</string>
+    <string name="filler">filler</string>
+    <string name="Rules">Правила</string>
+    <string name="Resume">Продолжить</string>
+    <string name="NewGame">Новая игра</string>
+    <string name="GameName">Болтливый крокодил</string>
+    <string name="Logo">logo</string>
 </resources>
