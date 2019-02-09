@@ -31,125 +31,142 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameLogo" />
 
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:padding="10dp"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description">
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/goalImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/goalImage"
-                app:srcCompat="@mipmap/ic_launcher"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="225dp" />
-
-            <TextView
-                android:id="@+id/goalTextView"
-                android:layout_width="300dp"
-                android:layout_height="73dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="0dp"
-                android:text="@string/goalTextView"
-                android:textAlignment="viewStart"
-                tools:layout_editor_absoluteX="115dp"
-                tools:layout_editor_absoluteY="223dp" />
-        </TableRow>
-
-        <TableRow
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description">
 
-            <ImageView
-                android:id="@+id/ruleImage"
+            <TableRow
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/goalImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/goalImage"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="225dp" />
+
+                <TextView
+                    android:id="@+id/goalTextView"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/goalTextView"
+                    android:textAlignment="viewStart"
+                    tools:layout_editor_absoluteX="115dp"
+                    tools:layout_editor_absoluteY="223dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/ruleImageView"
-                android:paddingTop="10dp"
-                app:srcCompat="@mipmap/ic_launcher"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="337dp" />
+                android:paddingBottom="10dp">
 
-            <TextView
-                android:id="@+id/ruleTextView"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="0dp"
-                android:text="@string/rules"
-                android:textAlignment="viewStart"
-                tools:layout_editor_absoluteX="115dp"
-                tools:layout_editor_absoluteY="336dp" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/ruleImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/ruleImageView"
+                    android:paddingTop="10dp"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="337dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/ruleTextView"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/rules"
+                    android:textAlignment="viewStart"
+                    tools:layout_editor_absoluteX="115dp"
+                    tools:layout_editor_absoluteY="336dp" />
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/rewardImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/rewardImageView"
-                android:paddingTop="10dp"
-                app:srcCompat="@mipmap/ic_launcher"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="449dp" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/rewardTextView"
-                android:layout_width="300dp"
-                android:layout_height="73dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="0dp"
-                android:text="@string/rewardTextView"
-                android:textAlignment="viewStart"
-                tools:layout_editor_absoluteX="115dp"
-                tools:layout_editor_absoluteY="450dp" />
+                <ImageView
+                    android:id="@+id/rewardImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/rewardImageView"
+                    android:paddingTop="10dp"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="449dp" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/rewardTextView"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/rewardTextView"
+                    android:textAlignment="viewStart"
+                    tools:layout_editor_absoluteX="115dp"
+                    tools:layout_editor_absoluteY="450dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/winnerImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/winnerImageView"
-                android:paddingTop="10dp"
-                app:srcCompat="@mipmap/ic_launcher"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="561dp" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/winnerTextView"
-                android:layout_width="300dp"
-                android:layout_height="95dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="0dp"
-                android:text="@string/winnerTextView"
-                android:textAlignment="viewStart"
-                tools:layout_editor_absoluteX="114dp"
-                tools:layout_editor_absoluteY="563dp" />
+                <ImageView
+                    android:id="@+id/winnerImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/winnerImageView"
+                    android:paddingTop="10dp"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="561dp" />
 
-        </TableRow>
-    </TableLayout>
+                <TextView
+                    android:id="@+id/winnerTextView"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/winnerTextView"
+                    android:textAlignment="viewStart"
+                    tools:layout_editor_absoluteX="114dp"
+                    tools:layout_editor_absoluteY="563dp" />
+
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
