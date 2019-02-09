@@ -6,4 +6,14 @@
     <string name="NewGame">Новая игра</string>
     <string name="GameName">Болтливый крокодил</string>
     <string name="Logo">logo</string>
+    <string name="winnerTextView">Победителем считается команда, у которой количество слов достигло установленного значения. Раунды проходят пока не определен победитель.</string>
+    <string name="gameLogo">TODO</string>
+    <string name="description">Командная игра, основной целью в которой является объяснение слов</string>
+    <string name="rules">Во время объяснения нельзя использовать однокоренные слова, озвучивать перевод слов с иностранных языков, а также явно показывать жестами.</string>
+    <string name="goalImage">TODO</string>
+    <string name="goalTextView">Задачей каждого игрока является объяснение как можно большего количества слов своим товарищам по команде.</string>
+    <string name="rewardTextView">Отгаданное слово приносит команде одно очко, а за пропущенное слово команда штрафуется.</string>
+    <string name="ruleImageView">TODO</string>
+    <string name="rewardImageView">TODO</string>
+    <string name="winnerImageView">TODO</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.project.user.talking_crocodile;
+package by.fabric.kewbr.talking_crocodile;
 
 import org.junit.Test;
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="by.fabric.kewbr.talking_crocodile.MainMenu">
 
     <ImageView
         android:id="@+id/backgroundPattern"
@@ -27,6 +27,9 @@
         android:layout_marginBottom="100dp"
         android:elevation="0dp"
         android:text="@string/Rules"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
         app:layout_constraintStart_toEndOf="@+id/backgroundPattern" />
@@ -37,6 +40,9 @@
         android:layout_height="50dp"
         android:layout_marginBottom="25dp"
         android:text="@string/Resume"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toTopOf="@+id/rulesButton"
         app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,6 +54,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:text="@string/NewGame"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toTopOf="@+id/continueButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -60,6 +69,7 @@
         android:layout_marginTop="70dp"
         android:text="@string/GameName"
         android:textSize="40sp"
+        android:textColor="#000"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
