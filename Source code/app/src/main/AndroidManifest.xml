@@ -9,13 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        <activity android:name="by.fabric.kewbr.talking_crocodile.MainMenu"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ec36cb8b2a6a19dc03003abc3b5568cac27e2764" />
+        <activity android:name="by.fabric.kewbr.talking_crocodile.Rules"
+            android:parentActivityName="by.fabric.kewbr.talking_crocodile.MainMenu"
+            android:label="Правила"/>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
