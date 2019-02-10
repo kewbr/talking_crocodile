@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
-import com.project.user.talking_crocodile.R;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -34,5 +33,16 @@ public class MainMenu extends AppCompatActivity {
     public void openRulesActivity() {
         Intent intent = new Intent(this, Rules.class);
         startActivity(intent);
+    }
+
+    public void startNewGame(View view) {
+        switch (view.getId()) {
+            case R.id.newGameButton:
+                Intent intent = new Intent(this, GameView.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -57,6 +57,7 @@
         android:textSize="25sp"
         android:textColor="#000"
         android:background="@drawable/rounded_button"
+        android:onClick="startNewGame"
         app:layout_constraintBottom_toTopOf="@+id/continueButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

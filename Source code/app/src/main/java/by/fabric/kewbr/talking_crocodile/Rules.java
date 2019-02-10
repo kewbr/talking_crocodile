@@ -3,7 +3,6 @@ package by.fabric.kewbr.talking_crocodile;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.crashlytics.android.Crashlytics;
-import com.project.user.talking_crocodile.R;
 
 public class Rules extends AppCompatActivity{
     @Override
