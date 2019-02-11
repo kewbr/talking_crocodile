@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,88 +8,107 @@
 
     <ImageView
         android:id="@+id/backgroundPattern"
-        android:layout_width="421dp"
-        android:layout_height="719dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:background="@color/colorPrimaryDark"
         android:contentDescription="@string/filler"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/filler3x" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/rulesButton"
-        android:layout_width="400dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
-        android:elevation="0dp"
-        android:text="@string/Rules"
-        android:textSize="25sp"
-        android:textColor="#000"
-        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
-        app:layout_constraintStart_toEndOf="@+id/backgroundPattern" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/continueButton"
-        android:layout_width="400dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="25dp"
-        android:text="@string/Resume"
-        android:textSize="25sp"
-        android:textColor="#000"
-        android:background="@drawable/rounded_button"
-        app:layout_constraintBottom_toTopOf="@+id/rulesButton"
-        app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/backgroundPattern" />
+        <TextView
+            android:id="@+id/gameName"
+            android:layout_width="match_parent"
+            android:layout_height="141dp"
+            android:autoSizeMaxTextSize="36sp"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeTextType="uniform"
+            android:baselineAligned="false"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="70dp"
+            android:text="@string/GameName"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/newGameButton"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:text="@string/NewGame"
-        android:textSize="25sp"
-        android:textColor="#000"
-        android:background="@drawable/rounded_button"
-        android:onClick="startNewGame"
-        app:layout_constraintBottom_toTopOf="@+id/continueButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="202dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:contentDescription="@string/Logo"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/newGameButton"
+            app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
+            app:layout_constraintTop_toBottomOf="@+id/gameName"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
 
-    <TextView
-        android:id="@+id/gameName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="@string/GameName"
-        android:textSize="40sp"
-        android:textColor="#000"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:onClick="startNewGame"
+            android:text="@string/NewGame"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:contentDescription="@string/Logo"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/newGameButton"
-        app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
-        app:layout_constraintTop_toBottomOf="@+id/gameName"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/Resume"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/rulesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_button"
+            android:elevation="0dp"
+            android:text="@string/Rules"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
+            app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
