@@ -16,4 +16,5 @@
     <string name="ruleImageView">TODO</string>
     <string name="rewardImageView">TODO</string>
     <string name="winnerImageView">TODO</string>
+    <string name="circle">circle</string>
 </resources>

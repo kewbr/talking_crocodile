@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.project.user.talking_crocodile" >
+    package="by.fabric.kewbr.talking_crocodile" >
 
     <application
         android:allowBackup="true"
@@ -8,9 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <activity android:name="by.fabric.kewbr.talking_crocodile.GameView"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name="by.fabric.kewbr.talking_crocodile.MainMenu"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +26,7 @@
             android:value="ec36cb8b2a6a19dc03003abc3b5568cac27e2764" />
         <activity android:name="by.fabric.kewbr.talking_crocodile.Rules"
             android:parentActivityName="by.fabric.kewbr.talking_crocodile.MainMenu"
+            android:screenOrientation="portrait"
             android:label="Правила"/>
     </application>
 
