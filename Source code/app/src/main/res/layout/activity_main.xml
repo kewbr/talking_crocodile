@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="by.fabric.kewbr.talking_crocodile.MainMenu">
+    tools:context="by.fabric.kewbr.talking_crocodile.View.MainMenu">
 
     <ImageView
         android:id="@+id/backgroundPattern"
@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/fillercroco" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,9 +39,13 @@
             android:autoSizeMinTextSize="24sp"
             android:autoSizeTextType="uniform"
             android:baselineAligned="false"
-            android:fontFamily="casual"
+            android:fontFamily="@font/cookie"
             android:gravity="center"
             android:paddingTop="70dp"
+            android:shadowColor="@color/colorBack"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="20"
             android:text="@string/GameName"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
@@ -52,9 +57,8 @@
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
-            android:layout_height="202dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_height="274dp"
+            android:layout_marginTop="0dp"
             android:contentDescription="@string/Logo"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newGameButton"
@@ -62,12 +66,13 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
             app:layout_constraintTop_toBottomOf="@+id/gameName"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            app:srcCompat="@drawable/talkcrocodile" />
 
         <Button
             android:id="@+id/newGameButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:onClick="startNewGame"
             android:text="@string/NewGame"
@@ -83,7 +88,7 @@
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:text="@string/Resume"
             android:textColor="@color/colorAccent"
@@ -98,7 +103,7 @@
             android:id="@+id/rulesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:elevation="0dp"
             android:text="@string/Rules"

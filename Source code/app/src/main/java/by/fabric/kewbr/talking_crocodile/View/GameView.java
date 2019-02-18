@@ -1,5 +1,8 @@
-package by.fabric.kewbr.talking_crocodile;
+package by.fabric.kewbr.talking_crocodile.View;
 
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,11 +16,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
+
+import by.fabric.kewbr.talking_crocodile.R;
+
 public class GameView extends AppCompatActivity  implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;
@@ -29,7 +36,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
-    private String[] array = {"Hello", "Nikita", "Idiot", "Idontcare", "Myau"};
+    private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +96,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         // Check if the image view is out of the parent view and report it if it is.
         // Only report once the image goes out and don't stack toasts.
         if (view.getId() == R.id.sun) {
-            if (isOut(view)) {
-                if (!isOutReported) {
-                    isOutReported = true;
-                    //Toast.makeText(this, "OUT", Toast.LENGTH_SHORT).show();
-                }
-                startAnimation(view.getTop() < (int) (0.1 * windowheight));
-            } else {
-                isOutReported = false;
-            }
-            if (!isOutReported)
+            if (!isOutReported )
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
                         _yDelta = Y - view.getTop();
@@ -136,6 +135,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                         float opacity = tempr * 255;
 
                         setOpacity((int) opacity);
+                        float k = 0.1f * windowheight;
+                        //if(view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight())
+                        if(lp.topMargin <= k  || lp.topMargin > (windowheight - k - view.getHeight())) {
+                            startAnimation(view.getTop() < (int) (0.1 * windowheight));
+                            isOutReported = true;
+                        }
+                        else
                         view.setLayoutParams(lp);
                         break;
                 }
@@ -257,7 +263,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                //mTextView.setText(array[new Random().nextInt(100)%5]);
+                isOutReported = false;
             }
 
             @Override
@@ -279,4 +285,3 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
 }
-

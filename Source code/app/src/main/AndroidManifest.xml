@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="by.fabric.kewbr.talking_crocodile" >
+    package="by.fabric.kewbr.talking_crocodile">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,10 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="by.fabric.kewbr.talking_crocodile.GameView"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name="by.fabric.kewbr.talking_crocodile.MainMenu"
+        <activity android:name=".activity_game_view2"></activity>
+        <activity
+            android:name=".View.GameView"
+            android:label="Болтливый крокодил"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".View.PositionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".View.MainMenu"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,14 +29,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ec36cb8b2a6a19dc03003abc3b5568cac27e2764" />
-        <activity android:name="by.fabric.kewbr.talking_crocodile.Rules"
-            android:parentActivityName="by.fabric.kewbr.talking_crocodile.MainMenu"
-            android:screenOrientation="portrait"
-            android:label="Правила"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".View.Rules"
+            android:label="Правила"
+            android:parentActivityName=".View.MainMenu"
+            android:screenOrientation="portrait" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
