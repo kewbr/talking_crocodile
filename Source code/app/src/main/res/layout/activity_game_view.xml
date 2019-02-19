@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/circle"
-tools:context="by.fabric.kewbr.talking_crocodile.GameView" >
+tools:context="by.fabric.kewbr.talking_crocodile.View.GameView" >
 
 <ImageView
     android:id="@+id/sun"
@@ -27,5 +27,15 @@ tools:context="by.fabric.kewbr.talking_crocodile.GameView" >
     android:textSize="32dp"
     android:textColor="@android:color/black"
     />
+
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="20dp"
+        android:text="TextView" />
 
 </RelativeLayout>

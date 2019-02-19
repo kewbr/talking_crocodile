@@ -1,4 +1,4 @@
-package by.fabric.kewbr.talking_crocodile;
+package by.fabric.kewbr.talking_crocodile.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
 
+import by.fabric.kewbr.talking_crocodile.R;
 import io.fabric.sdk.android.Fabric;
 
 public class MainMenu extends AppCompatActivity {

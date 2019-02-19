@@ -1,5 +1,9 @@
-package by.fabric.kewbr.talking_crocodile;
+package by.fabric.kewbr.talking_crocodile.View;
 
+import android.os.CountDownTimer;
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,11 +17,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
+
+import by.fabric.kewbr.talking_crocodile.R;
+
 public class GameView extends AppCompatActivity  implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;
@@ -29,7 +37,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
-    private String[] array = {"Hello", "Nikita", "Idiot", "Idontcare", "Myau"};
+    private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
+    private boolean flag;
+    private TextView timerTextView;
+
+    final private int INTERVAL = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mRrootLayout = (ViewGroup) findViewById(R.id.circle);
         mImageView = (ImageView) mRrootLayout.findViewById(R.id.sun);
         mTextView = (TextView) mRrootLayout.findViewById(R.id.word);
+        timerTextView = (TextView) mRrootLayout.findViewById(R.id.timerTextView);
         mTextView.setText(array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
@@ -67,6 +80,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         });
         int top = windowheight / 2;
         isEnded = false;
+        Timer timer = new Timer(80000, INTERVAL);
         //mImageView.setImageAlpha(128);
     }
 
@@ -88,16 +102,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         // Check if the image view is out of the parent view and report it if it is.
         // Only report once the image goes out and don't stack toasts.
         if (view.getId() == R.id.sun) {
-            if (isOut(view)) {
-                if (!isOutReported) {
-                    isOutReported = true;
-                    //Toast.makeText(this, "OUT", Toast.LENGTH_SHORT).show();
-                }
-                startAnimation(view.getTop() < (int) (0.1 * windowheight));
-            } else {
-                isOutReported = false;
-            }
-            if (!isOutReported)
+            if (!isOutReported )
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
                         _yDelta = Y - view.getTop();
@@ -136,6 +141,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                         float opacity = tempr * 255;
 
                         setOpacity((int) opacity);
+                        float k = 0.1f * windowheight;
+                        //if(view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight())
+                        if(lp.topMargin <= k  || lp.topMargin > (windowheight - k - view.getHeight())) {
+                            startAnimation(view.getTop() < (int) (0.1 * windowheight));
+                            isOutReported = true;
+                        }
+                        else
                         view.setLayoutParams(lp);
                         break;
                 }
@@ -257,7 +269,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                //mTextView.setText(array[new Random().nextInt(100)%5]);
+                isOutReported = false;
             }
 
             @Override
@@ -278,5 +290,29 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mImageView.setImageAlpha(value);
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
+    public class Timer extends CountDownTimer {
+        
+
+        public Timer(long startTime, long interval) {
+            super(startTime, interval);
+            start();
+        }
+
+        @Override
+        public void onFinish() {
+            //text.setText("Time's up!");
+            timerTextView.setText("0:0");
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+           // text.setText("Time remain:" + millisUntilFinished);
+           // long timeElapsed = start - millisUntilFinished;
+            timerTextView.setText(String.valueOf((millisUntilFinished/1000)/60)+":"
+                    + String.valueOf((millisUntilFinished/1000)%60));
+        }
+    }
 }
 
+
+    
