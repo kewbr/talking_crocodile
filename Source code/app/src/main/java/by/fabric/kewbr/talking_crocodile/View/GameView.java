@@ -1,9 +1,7 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
-import android.os.CountDownTimer;
-import android.support.animation.DynamicAnimation;
-import android.support.animation.SpringAnimation;
-import android.support.animation.SpringForce;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,7 +15,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,8 +37,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
     private boolean flag;
     private TextView timerTextView;
+    private long timerTime = 10000;
+    private long startTime;
 
-    final private int INTERVAL = 1000;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         });
         int top = windowheight / 2;
         isEnded = false;
-        Timer timer = new Timer(80000, INTERVAL);
+
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        startTime = SystemClock.uptimeMillis();
+        // Добавляем Runnable-объект timeUpdaterRunnable в очередь
+        // сообщений, объект должен быть запущен после задержки в 100 мс
+        mHandler.postDelayed(timeUpdaterRunnable, 100);
+
         //mImageView.setImageAlpha(128);
     }
 
@@ -290,28 +295,42 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mImageView.setImageAlpha(value);
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
-    public class Timer extends CountDownTimer {
-        
 
-        public Timer(long startTime, long interval) {
-            super(startTime, interval);
-            start();
-        }
+    // Описание Runnable-объекта
+    private Runnable timeUpdaterRunnable = new Runnable() {
+        public void run() {
+            // вычисляем время
+            long millis = timerTime - (SystemClock.uptimeMillis() - startTime);;
 
-        @Override
-        public void onFinish() {
-            //text.setText("Time's up!");
-            timerTextView.setText("0:0");
+            int second = (int) (millis / 1000);
+            int min = second / 60;
+            second = second % 60;
+            // выводим время
+            timerTextView.setText("" +String.format("%02d", min) + ":" + String.format("%02d", second));
+            // повторяем через каждые 200 миллисекунд
+            if (millis < 1000) {
+                onPause();
+               // mHandler.removeCallbacks(timeUpdaterRunnable);
+                return;
+            }
+            mHandler.postDelayed(this, 1000);
         }
+    };
 
-        @Override
-        public void onTick(long millisUntilFinished) {
-           // text.setText("Time remain:" + millisUntilFinished);
-           // long timeElapsed = start - millisUntilFinished;
-            timerTextView.setText(String.valueOf((millisUntilFinished/1000)/60)+":"
-                    + String.valueOf((millisUntilFinished/1000)%60));
-        }
+    @Override
+    protected void onPause() {
+        // Удаляем Runnable-объект для прекращения задачи
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        super.onPause();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Добавляем Runnable-объект
+        mHandler.postDelayed(timeUpdaterRunnable, 1000);
+    }
+
 }
 
 
