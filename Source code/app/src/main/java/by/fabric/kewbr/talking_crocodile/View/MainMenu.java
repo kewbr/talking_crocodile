@@ -14,6 +14,7 @@ import io.fabric.sdk.android.Fabric;
 public class MainMenu extends AppCompatActivity {
 
     private Button rulesButton;
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,23 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        continueButton = (Button) findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettings();
+            }
+        });
+
     }
 
     public void openRulesActivity() {
         Intent intent = new Intent(this, Rules.class);
+        startActivity(intent);
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
 

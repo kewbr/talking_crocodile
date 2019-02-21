@@ -1,220 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/backgroundPattern3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:contentDescription="@string/filler"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="1.0" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/countOfWordsLabel"
+                            android:layout_width="280dp"
+                            android:layout_height="31dp"
+                            android:text="@string/countOfWordsString"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/countOfWords"
+                            android:layout_width="47dp"
+                            android:layout_height="32dp"
+                            android:text="@string/valueOfWords"
+                            android:textAlignment="center"
+                            android:textSize="24sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/labelForCountOfWords"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:paddingLeft="20dp"
+                    android:text="@string/labelForVictory" />
+
+                <SeekBar
+                    android:id="@+id/wordSeekBar"
+                    android:layout_width="328dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:max="120"
+                    android:progress="60"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:layout_editor_absoluteY="103dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/timeOfRoundLabel"
+                            android:layout_width="280dp"
+                            android:layout_height="34dp"
+                            android:text="@string/timeOfRound"
+                            android:textSize="24sp"
+                            tools:layout_editor_absoluteX="42dp"
+                            tools:layout_editor_absoluteY="135dp" />
+
+                        <TextView
+                            android:id="@+id/timeOfRound"
+                            android:layout_width="44dp"
+                            android:layout_height="32dp"
+                            android:text="@string/timeOfRoundLabel"
+                            android:textAlignment="center"
+                            android:textSize="24sp"
+                            tools:layout_editor_absoluteX="326dp"
+                            tools:layout_editor_absoluteY="143dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/timeInSecondsLabel"
+                    android:layout_width="326dp"
+                    android:layout_height="19dp"
+                    android:paddingLeft="20dp"
+                    android:text="@string/countInSeconds"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="169dp" />
+
+                <SeekBar
+                    android:id="@+id/timeSeekBar"
+                    android:layout_width="326dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="20dp"
+                    android:max="120"
+                    android:progress="60"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="188dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="282dp"
+                            android:layout_height="34dp"
+                            android:text="@string/chargeForPass"
+                            android:textSize="24sp"
+                            tools:layout_editor_absoluteX="44dp"
+                            tools:layout_editor_absoluteY="235dp" />
+
+                        <Switch
+                            android:id="@+id/surcharge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:layout_editor_absoluteX="327dp"
+                            tools:layout_editor_absoluteY="236dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/surchargeRuleLabel"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:paddingLeft="20dp"
+                    android:text="@string/ruleForCharge"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="269dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/soundInAppLabel"
+                            android:layout_width="281dp"
+                            android:layout_height="33dp"
+                            android:text="@string/soundInApp"
+                            android:textSize="24sp"
+                            tools:layout_editor_absoluteX="43dp"
+                            tools:layout_editor_absoluteY="314dp" />
+
+                        <Switch
+                            android:id="@+id/soundInAppSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:layout_editor_absoluteX="326dp"
+                            tools:layout_editor_absoluteY="316dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/soundInAppDescriptionLabel"
+                    android:layout_width="323dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:paddingLeft="20dp"
+                    android:text="@string/enableSoundEffects"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="347dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Количество слов"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="64dp" />
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_button"
+            android:text="ДАЛЕЕ"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Время раунда"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="134dp" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Штраф за пропуск"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="209dp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Звук в игре"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="302dp" />
-
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="304dp"
-            tools:layout_editor_absoluteY="302dp" />
-
-        <Switch
-            android:id="@+id/switch2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="290dp"
-            tools:layout_editor_absoluteY="209dp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="для достижения победы"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="83dp" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="продолжительность в секундах"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="153dp" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="каждое пропущенное слово отнимает одно очко"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="236dp" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="включить звуковые эффекты"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="321dp" />
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="345dp"
-            android:layout_height="18dp"
-            android:max="120"
-            android:progress="60"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="102dp" />
-
-        <SeekBar
-            android:id="@+id/seekBar2"
-            android:layout_width="345dp"
-            android:layout_height="15dp"
-            android:max="120"
-            android:progress="60"
-            tools:layout_editor_absoluteX="42dp"
-            tools:layout_editor_absoluteY="172dp" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:text="60"
-            tools:layout_editor_absoluteX="327dp"
-            tools:layout_editor_absoluteY="56dp" />
-    </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Количество слов"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="64dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Время раунда"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="134dp" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Штраф за пропуск"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="209dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Звук в игре"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="302dp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="304dp"
-        tools:layout_editor_absoluteY="302dp" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="290dp"
-        tools:layout_editor_absoluteY="209dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="для достижения победы"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="83dp" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="продолжительность в секундах"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="153dp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="каждое пропущенное слово отнимает одно очко"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="236dp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="включить звуковые эффекты"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="321dp" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="345dp"
-        android:layout_height="18dp"
-        android:max="120"
-        android:progress="60"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="102dp" />
-
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="345dp"
-        android:layout_height="15dp"
-        android:max="120"
-        android:progress="60"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="172dp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:text="60"
-        tools:layout_editor_absoluteX="329dp"
-        tools:layout_editor_absoluteY="138dp" />
 </android.support.constraint.ConstraintLayout>
