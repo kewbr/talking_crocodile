@@ -17,10 +17,6 @@
             android:label="Болтливый крокодил"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".View.Round"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".View.PositionActivity"
             android:screenOrientation="portrait"></activity>
         <activity
@@ -47,6 +43,11 @@
             android:label="Правила"
             android:parentActivityName=".View.MainMenu"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.Round"
+            android:screenOrientation="portrait"
+            android:label="Меню"
+            android:parentActivityName=".View.MainMenu"></activity>
     </application>
 
 </manifest>

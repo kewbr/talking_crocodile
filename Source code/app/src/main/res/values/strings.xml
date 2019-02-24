@@ -17,4 +17,6 @@
     <string name="rewardImageView">TODO</string>
     <string name="winnerImageView">TODO</string>
     <string name="circle">circle</string>
+    <string name="continueTextView">ПРОДОЛЖИТЬ</string>
+    <string name="_3">+3</string>
 </resources>
