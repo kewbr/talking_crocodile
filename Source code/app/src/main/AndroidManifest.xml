@@ -17,12 +17,17 @@
             android:label="Болтливый крокодил"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".View.Round"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".View.PositionActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".View.MainMenu"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
