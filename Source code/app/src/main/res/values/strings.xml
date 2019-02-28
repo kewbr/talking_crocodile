@@ -17,4 +17,6 @@
     <string name="rewardImageView">TODO</string>
     <string name="winnerImageView">TODO</string>
     <string name="circle">circle</string>
+    <string name="header">header</string>
+    <string name="guessWords"></string>
 </resources>
