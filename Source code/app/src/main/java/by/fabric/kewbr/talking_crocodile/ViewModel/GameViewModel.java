@@ -1,15 +1,35 @@
 package by.fabric.kewbr.talking_crocodile.ViewModel;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import by.fabric.kewbr.talking_crocodile.Model.Round;
+import by.fabric.kewbr.talking_crocodile.Model.Team;
+import by.fabric.kewbr.talking_crocodile.View.GameView;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameViewModel {
-    List<String> array = new ArrayList<String>();
-    void load(int size){
+
+    private Round round;
+    private long roundTimer;
+    public Team myTeam = new Team("DreamTeam");
+
+    public GameViewModel(){
 
     }
+
+    private void collectGamelog(){}
+
+    private void loadGame(){
+    }
+
+    public void startNewRound()
+    {
+        if(round.isFinished())
+            round.restart();
+        roundTimer = 0;
+    }
+
+    public void finishGame(){
+        GameView.showDialogAndClose("Something");
+    }
+
+
+
 }

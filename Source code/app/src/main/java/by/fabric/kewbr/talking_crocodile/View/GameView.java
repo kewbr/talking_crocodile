@@ -24,10 +24,11 @@ import android.widget.TextView;
 import java.util.Random;
 
 import by.fabric.kewbr.talking_crocodile.R;
+import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
 
 public class GameView extends AppCompatActivity  implements View.OnTouchListener {
 
-    private GestureDetector gestureDetector;
+    //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
     int windowheight; // Actually the height of the RelativeLayout.
     private ImageView mImageView;
@@ -37,7 +38,16 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
     private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
-    private boolean flag;
+
+    private TextView guessTextView;
+    private TextView passTextView;
+    private int passCount;
+    private int guessCount;
+
+    private GameViewModel vm = new GameViewModel();
+
+    AnimatorSet s = new AnimatorSet();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +62,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mRrootLayout = (ViewGroup) findViewById(R.id.circle);
         mImageView = (ImageView) mRrootLayout.findViewById(R.id.sun);
         mTextView = (TextView) mRrootLayout.findViewById(R.id.word);
+        guessTextView = (TextView) mRrootLayout.findViewById(R.id.guessWordCount);
+        passTextView = (TextView) mRrootLayout.findViewById(R.id.passWordCount);
+        passTextView.setText("0");
+        guessTextView.setText("0");
         mTextView.setText(array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
@@ -99,6 +113,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             if (!isOutReported )
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
+                        s.cancel();
                         _yDelta = Y - view.getTop();
                         break;
                     case MotionEvent.ACTION_UP: {
@@ -138,7 +153,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                         float k = 0.1f * windowheight;
                         //if(view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight())
                         if(lp.topMargin <= k  || lp.topMargin > (windowheight - k - view.getHeight())) {
-                            startAnimation(view.getTop() < (int) (0.1 * windowheight));
+                            startAnimation(lp.topMargin <= k );
                             isOutReported = true;
                         }
                         else
@@ -182,7 +197,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         });
         animation = ValueAnimator.ofInt(lp.topMargin, (windowheight - mImageView.getHeight()) / 2);
-        if (isPullUp) {
+        //if (isPullUp) {
+
             animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator updatedAnimation) {
@@ -196,23 +212,23 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
             });
 
-        } else {
-
-            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-                    // You can use the animated value in a property that uses the
-                    // same type as the animation. In this case, you can use the
-                    // float value in the translationX property.
-                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
-                    lp.topMargin = animatedValue;
-                    mImageView.setLayoutParams(lp);
-                }
-            });
-        }
+//        } else {
+//
+//            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+//                    // You can use the animated value in a property that uses the
+//                    // same type as the animation. In this case, you can use the
+//                    // float value in the translationX property.
+//                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
+//                    lp.topMargin = animatedValue;
+//                    mImageView.setLayoutParams(lp);
+//                }
+//            });
+//        }
         animation.setDuration(1000);
         obj.setDuration(1000);
-        AnimatorSet s = new AnimatorSet();
+        //AnimatorSet s = new AnimatorSet();
         s.playTogether(animation, obj);
         s.start();
     }
@@ -231,30 +247,33 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         });
         animation = ValueAnimator.ofInt(lp.topMargin, (windowheight - mImageView.getHeight()) / 2);
         if (isPullUp) {
-            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
-                    lp.topMargin = animatedValue;
-                    mImageView.setLayoutParams(lp);
-                }
+            increaseGuessWordCount();
 
-            });
 
         } else {
-            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
-                    lp.topMargin = animatedValue;
-                    mImageView.setLayoutParams(lp);
-                }
-            });
+            increasePassWordCount();
+//            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+//                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
+//                    lp.topMargin = animatedValue;
+//                    mImageView.setLayoutParams(lp);
+//                }
+//            });
         }
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                int animatedValue = (int) updatedAnimation.getAnimatedValue();
+                lp.topMargin = animatedValue;
+                mImageView.setLayoutParams(lp);
+            }
+
+        });
         animation.setDuration(1000);
         obj.setDuration(1000);
-        AnimatorSet s = new AnimatorSet();
-        s.playTogether(animation, obj);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animation, obj);
         Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -276,12 +295,32 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
             }
         };
-        s.addListener(animatorListener);
-        s.start();
+        set.addListener(animatorListener);
+        set.start();
+    }
+
+    private void increasePassWordCount() {
+        passCount++;
+        //because we have only 1 team, so we don't need to implement a full method to work with teams
+        if(vm.myTeam.getRating()>0)
+        vm.myTeam.decreaseRating();
+        passTextView.setText(" "+ passCount);
+
+    }
+
+    private void increaseGuessWordCount() {
+        guessCount++;
+        vm.myTeam.increaseRating();
+        guessTextView.setText(" "+ guessCount);
     }
 
     private void setOpacity(int value) {
         mImageView.setImageAlpha(value);
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
+    }
+
+    private static void closeWindow(){}
+    public static void showDialogAndClose(String s){
+        closeWindow();
     }
 }
