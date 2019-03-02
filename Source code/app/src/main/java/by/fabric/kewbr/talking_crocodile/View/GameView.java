@@ -38,7 +38,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private boolean flag;
     private TextView timerTextView;
     private long timerTime = 10000;
-    private long startTime;
+    private long previosTime;
 
     private Handler mHandler = new Handler();
 
@@ -81,7 +81,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         isEnded = false;
 
         mHandler.removeCallbacks(timeUpdaterRunnable);
-        startTime = SystemClock.uptimeMillis();
+        previosTime = SystemClock.uptimeMillis();
         // Добавляем Runnable-объект timeUpdaterRunnable в очередь
         // сообщений, объект должен быть запущен после задержки в 100 мс
         mHandler.postDelayed(timeUpdaterRunnable, 100);
@@ -300,15 +300,15 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private Runnable timeUpdaterRunnable = new Runnable() {
         public void run() {
             // вычисляем время
-            long millis = timerTime - (SystemClock.uptimeMillis() - startTime);;
-
-            int second = (int) (millis / 1000);
+            timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
+            previosTime = SystemClock.uptimeMillis();
+            int second = (int) (timerTime / 1000);
             int min = second / 60;
             second = second % 60;
             // выводим время
             timerTextView.setText("" +String.format("%02d", min) + ":" + String.format("%02d", second));
             // повторяем через каждые 200 миллисекунд
-            if (millis < 1000) {
+            if (timerTime < 1000) {
                 onPause();
                // mHandler.removeCallbacks(timeUpdaterRunnable);
                 return;
