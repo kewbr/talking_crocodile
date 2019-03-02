@@ -29,24 +29,10 @@ public class MainMenu extends AppCompatActivity {
                 openRulesActivity();
             }
         });
-
-        continueButton = (Button) findViewById(R.id.continueButton);
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSettings();
-            }
-        });
-
     }
 
     public void openRulesActivity() {
         Intent intent = new Intent(this, Rules.class);
-        startActivity(intent);
-    }
-
-    public void openSettings() {
-        Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
 

@@ -27,6 +27,7 @@
             android:name=".View.MainMenu"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,6 +47,11 @@
             android:label="Правила"
             android:parentActivityName=".View.MainMenu"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.Round"
+            android:screenOrientation="portrait"
+            android:label="Меню"
+            android:parentActivityName=".View.MainMenu"></activity>
     </application>
 
 </manifest>

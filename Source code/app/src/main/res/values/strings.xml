@@ -27,4 +27,7 @@
     <string name="countInSeconds">продолжительность в секундах</string>
     <string name="chargeForPass">Штраф за пропуск</string>
     <string name="ruleForCharge">каждое пропущенное слово отнимает 1 очко</string>
+    <string name="continueTextView">ПРОДОЛЖИТЬ</string>
+    <string name="_3">+3</string>
+
 </resources>
