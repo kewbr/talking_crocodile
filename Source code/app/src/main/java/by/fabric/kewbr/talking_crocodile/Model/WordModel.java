@@ -10,16 +10,16 @@ public class WordModel {
         this.guessed = guessed;
     }
 
-    String getWord(){
+    public String getWord(){
         final String word = this.word;
         return word;
     }
-    boolean getGuessed(){
+    public boolean getGuessed(){
         boolean guessed = this.guessed;
         return guessed;
     }
 
-    void setGuessed(boolean guessed){
+    public void setGuessed(boolean guessed){
         this.guessed = guessed;
     }
 }
