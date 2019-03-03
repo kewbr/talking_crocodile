@@ -2,15 +2,15 @@ package by.fabric.kewbr.talking_crocodile.Model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Round {
+public class RoundModel {
     public int currentTeamIndex = 1; //счет команд начинаем с 1 , сначала команда играет, потом увеличиваем индекс
-    private LinkedList<Team> teams = new LinkedList<Team>();
-    public Round(){
+    private LinkedList<TeamModel> teams = new LinkedList<TeamModel>();
+    public RoundModel(){
 
     }
-    public Round(List<String> mteams){
+    public RoundModel(List<String> mteams){
         for (String name: mteams ) {
-            teams.add(new Team(name));
+            teams.add(new TeamModel(name));
         }
     }
 

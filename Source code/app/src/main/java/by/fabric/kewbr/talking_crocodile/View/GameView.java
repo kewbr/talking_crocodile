@@ -78,7 +78,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         RelativeLayout.LayoutParams temp = (RelativeLayout.LayoutParams) mImageView
                 .getLayoutParams();
         lpInit = new RelativeLayout.LayoutParams(temp);
-
+        lp = lpInit;
         // Capture the width of the RelativeLayout once it is laid out.
         mRrootLayout.post(new Runnable() {
             @Override

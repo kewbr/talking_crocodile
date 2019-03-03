@@ -11,20 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_game_view2"></activity>
+
         <activity
             android:name=".View.GameView"
             android:label="Болтливый крокодил"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
-            android:name=".View.PositionActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".View.SettingsView"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
-            android:name=".View.Settings"
-            android:theme="@style/AppTheme.NoActionBar">
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".View.MainMenu"
+            android:name=".View.MainMenuView"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -33,6 +34,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data
@@ -43,15 +45,19 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".View.Rules"
+            android:name=".View.RulesView"
             android:label="Правила"
-            android:parentActivityName=".View.MainMenu"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".View.MainMenuView"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
-            android:name=".View.Round"
+            android:name=".View.RoundView"
             android:screenOrientation="portrait"
             android:label="Меню"
-            android:parentActivityName=".View.MainMenu"></activity>
+            android:parentActivityName=".View.MainMenuView">
+        </activity>
+
     </application>
 
 </manifest>

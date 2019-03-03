@@ -1,14 +1,14 @@
 package by.fabric.kewbr.talking_crocodile.ViewModel;
-import by.fabric.kewbr.talking_crocodile.Model.Round;
-import by.fabric.kewbr.talking_crocodile.Model.Team;
+import by.fabric.kewbr.talking_crocodile.Model.RoundModel;
+import by.fabric.kewbr.talking_crocodile.Model.TeamModel;
 import by.fabric.kewbr.talking_crocodile.View.GameView;
 
 
 public class GameViewModel {
 
-    private Round round;
+    private RoundModel round;
     private long roundTimer;
-    public Team myTeam = new Team("DreamTeam");
+    public TeamModel myTeam = new TeamModel("DreamTeam");
 
     public GameViewModel(){
 
