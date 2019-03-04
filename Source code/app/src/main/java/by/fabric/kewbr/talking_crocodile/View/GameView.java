@@ -1,5 +1,6 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
+import android.os.CountDownTimer;
 import android.support.animation.DynamicAnimation;
 import android.support.animation.SpringAnimation;
 import android.support.animation.SpringForce;
@@ -12,6 +13,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,13 +23,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
 
-public class GameView extends AppCompatActivity  implements View.OnTouchListener {
+public class GameView extends AppCompatActivity  implements View.OnTouchListener, Observer {
 
     //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
@@ -47,15 +51,35 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private GameViewModel vm = new GameViewModel();
 
-    private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
+    //private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
 
     AnimatorSet s = new AnimatorSet();
+    private CountDownTimer timer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_view);
+        vm.addObserver(this);
+        setContentView(R.layout.start_round);
+        TextView text = findViewById(R.id.roundName);
+        text.setText("Раунд "+vm.roundCount);
+        timer = new CountDownTimer(5000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                setContentView(R.layout.activity_game_view);
+                startGame();
+            }
+        }.start();
+    }
+
+    private void startGame(){
+
+        vm.startNewRound();
         // We are interested when the image view leaves its parent RelativeLayout
         // container and not the screen, so the following code is not needed.
 //        DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -82,7 +106,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         RelativeLayout.LayoutParams temp = (RelativeLayout.LayoutParams) mImageView
                 .getLayoutParams();
         lpInit = new RelativeLayout.LayoutParams(temp);
+
         lp = lpInit;
+        //lp.topMargin = lpInit.topMargin;
+        //lp.bottomMargin = lpInit.bottomMargin;
         // Capture the width of the RelativeLayout once it is laid out.
         mRrootLayout.post(new Runnable() {
             @Override
@@ -326,5 +353,30 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private static void closeWindow(){}
     public static void showDialogAndClose(String s){
         closeWindow();
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        setContentView(R.layout.start_round);
+        TextView text = findViewById(R.id.roundName);
+        TextView rating = findViewById(R.id.rating);
+        text.setText("Раунд "+vm.roundCount);
+        rating.setText(""+vm.myTeam.getRating());
+        guessCount = 0;
+        passCount = 0;
+        //isOutReported = true;
+        timer = new CountDownTimer(5000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                setContentView(R.layout.activity_game_view);
+                //isOutReported = false;
+                //vm.startNewRound();
+                startGame();
+            }
+        }.start();
+        Log.i("Im observer"," ");
     }
 }
