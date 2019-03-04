@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import by.fabric.kewbr.talking_crocodile.Adapter.RoundWordsAdapter;
 import by.fabric.kewbr.talking_crocodile.R;
 
-public class Round extends AppCompatActivity {
+public class RoundView extends AppCompatActivity {
 
     private RecyclerView wordsList;
     private RoundWordsAdapter wordsAdapter;

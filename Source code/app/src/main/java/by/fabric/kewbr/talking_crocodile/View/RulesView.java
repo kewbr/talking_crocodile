@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import by.fabric.kewbr.talking_crocodile.R;
 
-public class Rules extends AppCompatActivity{
+public class RulesView extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

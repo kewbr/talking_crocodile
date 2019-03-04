@@ -11,7 +11,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class MainDBHelper extends SQLiteOpenHelper {
+
+    private static MainDBHelper sInstance;
+
     private static String DB_NAME = "word_base.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
@@ -20,7 +23,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private final Context mContext;
     private boolean mNeedUpdate = false;
 
-    public DBHelper(Context context) {
+
+    public static synchronized MainDBHelper getInstance(Context context) {
+
+        if (sInstance == null) {
+            sInstance = new MainDBHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+
+    private MainDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         if (android.os.Build.VERSION.SDK_INT >= 17)
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
