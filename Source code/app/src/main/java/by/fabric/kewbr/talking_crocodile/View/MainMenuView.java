@@ -11,9 +11,10 @@ import com.crashlytics.android.Crashlytics;
 import by.fabric.kewbr.talking_crocodile.R;
 import io.fabric.sdk.android.Fabric;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenuView extends AppCompatActivity {
 
     private Button rulesButton;
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,22 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        continueButton = (Button) findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTestActivity();
+            }
+        });
     }
 
     public void openRulesActivity() {
-        Intent intent = new Intent(this, Rules.class);
+        Intent intent = new Intent(this, RulesView.class);
+        startActivity(intent);
+    }
+
+    public void openTestActivity() {
+        Intent intent = new Intent(this, SettingsView.class);
         startActivity(intent);
     }
 

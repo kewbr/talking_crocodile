@@ -17,6 +17,19 @@
     <string name="rewardImageView">TODO</string>
     <string name="winnerImageView">TODO</string>
     <string name="circle">circle</string>
+    <string name="countOfWordsString">Количество слов</string>
+    <string name="valueOfWords">60</string>
+    <string name="labelForVictory">для достижения победы</string>
+    <string name="timeOfRound">Время раунда</string>
+    <string name="timeOfRoundLabel">60</string>
+    <string name="soundInApp">Звук в игре</string>
+    <string name="enableSoundEffects">включить звуковые эффекты</string>
+    <string name="countInSeconds">продолжительность в секундах</string>
+    <string name="chargeForPass">Штраф за пропуск</string>
+    <string name="ruleForCharge">каждое пропущенное слово отнимает 1 очко</string>
+    <string name="continueTextView">ПРОДОЛЖИТЬ</string>
+    <string name="_3">+3</string>
     <string name="header">header</string>
     <string name="guessWords"></string>
+
 </resources>
