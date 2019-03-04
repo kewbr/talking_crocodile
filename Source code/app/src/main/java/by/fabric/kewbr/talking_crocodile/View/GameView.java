@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
 
@@ -46,6 +47,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private GameViewModel vm = new GameViewModel();
 
+    private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
+
     AnimatorSet s = new AnimatorSet();
 
 
@@ -66,6 +69,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         passTextView = (TextView) mRrootLayout.findViewById(R.id.passWordCount);
         passTextView.setText("0");
         guessTextView.setText("0");
+
         mTextView.setText(array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
