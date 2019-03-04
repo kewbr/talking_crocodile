@@ -22,4 +22,7 @@ public class Round {
         currentTeamIndex = 1;
     }
 
+    public Team getCurrentTeam(){
+        return teams.get(currentTeamIndex);
+    }
 }
