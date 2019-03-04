@@ -23,6 +23,6 @@ public class Round {
     }
 
     public Team getCurrentTeam(){
-        return teams.get(currentTeamIndex);
+        return teams.get(currentTeamIndex-1);
     }
 }

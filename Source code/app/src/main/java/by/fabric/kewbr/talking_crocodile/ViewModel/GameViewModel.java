@@ -19,12 +19,10 @@ public class GameViewModel extends Observable {
     public Team myTeam;
     public GameViewModel(){
         LinkedList<String> list = new LinkedList<String>();
-        list.add("MyTeam");
-        list.add("IchniyTeam");
-        list.add("IchniyTeam");
+        list.add("Стандартная тима");
         round = new Round(list);
         myTeam = round.getCurrentTeam();
-        timer = new CountDownTimer(5000, 1000) {
+        timer = new CountDownTimer(15000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;

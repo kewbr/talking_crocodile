@@ -354,7 +354,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     public void update(Observable observable, Object o) {
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
+        TextView rating = findViewById(R.id.rating);
         text.setText("Раунд "+vm.roundCount);
+        rating.setText(""+vm.myTeam.getRating());
+        guessCount = 0;
+        passCount = 0;
         //isOutReported = true;
         timer = new CountDownTimer(5000, 1000) {
 
