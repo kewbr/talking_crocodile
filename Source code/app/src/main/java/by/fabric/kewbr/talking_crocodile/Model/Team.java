@@ -1,13 +1,13 @@
 package by.fabric.kewbr.talking_crocodile.Model;
 
-public class TeamModel {
+public class Team {
     public String teamName;
     private int rating;
-    public TeamModel(){
+    public Team(){
         rating = 0;
         teamName = "team";
     }
-    public TeamModel(String name){
+    public Team(String name){
         rating = 0;
         teamName = name;
     }
