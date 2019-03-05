@@ -51,7 +51,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private GameViewModel vm = new GameViewModel();
 
-    //private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
+  //  private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
 
     AnimatorSet s = new AnimatorSet();
     private CountDownTimer timer;
