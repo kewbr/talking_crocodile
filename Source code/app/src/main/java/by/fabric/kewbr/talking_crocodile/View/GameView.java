@@ -1,5 +1,6 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.animation.DynamicAnimation;
 import android.support.animation.SpringAnimation;
@@ -77,6 +78,18 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                 startGame();
             }
         }.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //pause the timers
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stop the timers
     }
 
     private void startGame(){
@@ -346,9 +359,12 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         guessCount++;
         //change this when we have more han 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
-        if(vm.myTeam.isWinner(vm.gameSettings.wordCount))
-            vm.finishGame();
         guessTextView.setText(" "+ guessCount);
+        if(vm.myTeam.isWinner(vm.gameSettings.wordCount)) {
+            vm.stopGame();
+            finish();
+            openFinishScreen();
+        }
     }
 
     private void setOpacity(int value) {
@@ -356,11 +372,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
 
-    private static void closeWindow(){}
-    public static void showDialogAndClose(String s){
-
-        closeWindow();
-    }
+//    private static void closeWindow(){}
+//    public static void showDialogAndClose(String s){
+//
+//        closeWindow();
+//    }
 
     @Override
     public void update(Observable observable, Object o) {
@@ -385,5 +401,14 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         }.start();
         Log.i("Im observer"," ");
+    }
+
+    private void openFinishScreen()
+    {
+        //stopGame();
+        Intent intent = new Intent(this, FinishView.class);
+        intent.putExtra("Team Name",vm.myTeam.teamName);
+        intent.putExtra("Team Rating", vm.myTeam.getRating());
+        startActivity(intent);
     }
 }

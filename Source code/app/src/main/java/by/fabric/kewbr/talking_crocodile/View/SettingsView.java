@@ -101,4 +101,10 @@ public class SettingsView extends AppCompatActivity {
         Intent intent = new Intent(this, GameView.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }

@@ -74,8 +74,8 @@ public class GameViewModel extends Observable {
         this.notifyObservers();
     }
 
-    public void finishGame(){
-        GameView.showDialogAndClose("Something");
+    public void stopGame(){
+        //GameView.showDialogAndClose("Something");
     }
 
 
