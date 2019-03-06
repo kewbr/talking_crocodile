@@ -71,6 +71,7 @@
                     android:layout_height="16dp"
                     android:layout_marginBottom="20dp"
                     android:max="120"
+                    android:min="10"
                     android:progress="60"
                     tools:layout_editor_absoluteX="42dp"
                     tools:layout_editor_absoluteY="103dp" />
@@ -121,6 +122,7 @@
                     android:layout_height="17dp"
                     android:layout_marginBottom="20dp"
                     android:max="120"
+                    android:min="10"
                     android:progress="60"
                     tools:layout_editor_absoluteX="43dp"
                     tools:layout_editor_absoluteY="188dp" />

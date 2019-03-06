@@ -1,9 +1,6 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
 import android.os.CountDownTimer;
-import android.support.animation.DynamicAnimation;
-import android.support.animation.SpringAnimation;
-import android.support.animation.SpringForce;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +13,9 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +23,7 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+
 import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
@@ -37,13 +33,17 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
     int windowheight; // Actually the height of the RelativeLayout.
+
     private ImageView mImageView;
     private ViewGroup mRrootLayout;
     private TextView mTextView;
     private int _yDelta;
+
     RelativeLayout.LayoutParams lp, lpInit;
+
     private boolean isEnded;
     private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
+    private String[] dataFromDB;
 
     private TextView guessTextView;
     private TextView passTextView;
@@ -64,6 +64,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private Handler mHandler = new Handler();
 
+    // Описание Runnable-объекта
+    private Runnable timeUpdaterRunnable;
+
+    // Tracks when we have reported that the image view is out of bounds so we
+    // don't over report.
+    private boolean isOutReported = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,10 +80,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         vm.addObserver(this);
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
-        text.setText("Раунд "+vm.roundCount);
+        text.setText("Раунд " + vm.roundCount);
+
+
         timer = new CountDownTimer(5000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+
             }
 
             public void onFinish() {
@@ -87,14 +97,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     }
 
     private void startGame(){
-
+        timerTime = 10000;
         vm.startNewRound();
         // We are interested when the image view leaves its parent RelativeLayout
         // container and not the screen, so the following code is not needed.
-//        DisplayMetrics displaymetrics = new DisplayMetrics();
-//        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//        windowwidth = displaymetrics.widthPixels;
-//        windowheight = displaymetrics.heightPixels;
+
         mRrootLayout = (ViewGroup) findViewById(R.id.circle);
         mImageView = (ImageView) mRrootLayout.findViewById(R.id.sun);
         mTextView = (TextView) mRrootLayout.findViewById(R.id.word);
@@ -105,6 +112,26 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         guessTextView.setText("0");
 
         timerTextView = (TextView) mRrootLayout.findViewById(R.id.timerTextView);
+
+        timeUpdaterRunnable = new Runnable() {
+            public void run() {
+                // вычисляем время
+                timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
+                previosTime = SystemClock.uptimeMillis();
+                int second = (int) (timerTime / 1000);
+                int min = second / 60;
+                second = second % 60;
+                // выводим время
+                timerTextView.setText("" + String.format("%02d", min) + ":" + String.format("%02d", second));
+                // повторяем через каждые 200 миллисекунд
+                if (timerTime < 1000) {
+                    onPause();
+                     mHandler.removeCallbacks(timeUpdaterRunnable);
+                    return;
+                }
+                mHandler.postDelayed(this, 1000);
+            }
+        };
 
         mTextView.setText(array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
@@ -120,8 +147,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         lpInit = new RelativeLayout.LayoutParams(temp);
 
         lp = lpInit;
-        //lp.topMargin = lpInit.topMargin;
-        //lp.bottomMargin = lpInit.bottomMargin;
+
         // Capture the width of the RelativeLayout once it is laid out.
         mRrootLayout.post(new Runnable() {
             @Override
@@ -133,28 +159,14 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         int top = windowheight / 2;
         isEnded = false;
 
-        mHandler.removeCallbacks(timeUpdaterRunnable);
         previosTime = SystemClock.uptimeMillis();
         // Добавляем Runnable-объект timeUpdaterRunnable в очередь
         // сообщений, объект должен быть запущен после задержки в 100 мс
         mHandler.postDelayed(timeUpdaterRunnable, 100);
 
-        //mImageView.setImageAlpha(128);
     }
 
-    // Tracks when we have reported that the image view is out of bounds so we
-    // don't over report.
-    private boolean isOutReported = false;
-
-    //@Override
-    //public boolean dispatchTouchEvent(MotionEvent ev) {
-    //    onTouch(mImageView,ev);
-    //    return true;
-    //    //return super.dispatchTouchEvent(ev);
-    //}
-
     public boolean onTouch(View view, MotionEvent event) {
-        final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
 
         // Check if the image view is out of the parent view and report it if it is.
@@ -201,7 +213,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
                         setOpacity((int) opacity);
                         float k = 0.1f * windowheight;
-                        //if(view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight())
                         if(lp.topMargin <= k  || lp.topMargin > (windowheight - k - view.getHeight())) {
                             startAnimation(lp.topMargin <= k );
                             isOutReported = true;
@@ -211,29 +222,18 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                         break;
                 }
         }
-        // invalidate is redundant if layout params are set or not needed if they are not set.
-//        mRrootLayout.invalidate();
         return true;
     }
 
-    private boolean isOut(View view) {
-        // Check to see if the view is out of bounds by calculating how many pixels
-        // of the view must be out of bounds to and checking that at least that many
-        // pixels are out.
-//        float percentageOut = 0.50f;
-//        int viewPctWidth = (int) (view.getWidth() * percentageOut);
-//        int viewPctHeight = (int) (view.getHeight() * percentageOut);
-//        return ((-view.getLeft() >= viewPctWidth) ||
-//                (view.getRight() - windowwidth) > viewPctWidth ||
-//                (-view.getTop() >= viewPctHeight) ||
-//                (view.getBottom() - windowheight) > viewPctHeight);
-        if (isEnded) {
-            isEnded = false;
-            return isEnded;
-        }
-        float delta = 0.1f * windowheight;
-        return (view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight()));
-    }
+//    private boolean isOut(View view) {
+//
+//        if (isEnded) {
+//            isEnded = false;
+//            return isEnded;
+//        }
+//        float delta = 0.1f * windowheight;
+//        return (view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight()));
+//    }
 
     private void returnAnimation(boolean isPullUp, int opacity) {
         ValueAnimator animation;
@@ -262,20 +262,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
             });
 
-//        } else {
-//
-//            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                @Override
-//                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-//                    // You can use the animated value in a property that uses the
-//                    // same type as the animation. In this case, you can use the
-//                    // float value in the translationX property.
-//                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
-//                    lp.topMargin = animatedValue;
-//                    mImageView.setLayoutParams(lp);
-//                }
-//            });
-//        }
         animation.setDuration(1000);
         obj.setDuration(1000);
         //AnimatorSet s = new AnimatorSet();
@@ -302,14 +288,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         } else {
             increasePassWordCount();
-//            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                @Override
-//                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-//                    int animatedValue = (int) updatedAnimation.getAnimatedValue();
-//                    lp.topMargin = animatedValue;
-//                    mImageView.setLayoutParams(lp);
-//                }
-//            });
         }
         animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -328,7 +306,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             @Override
             public void onAnimationStart(Animator animator) {
                 mTextView.setText(array[new Random().nextInt(100) % 5]);
-                //mTextView.setText(DB);
             }
 
             @Override
@@ -384,47 +361,24 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
         TextView rating = findViewById(R.id.rating);
-        text.setText("Раунд "+vm.roundCount);
-        rating.setText(""+vm.myTeam.getRating());
+        text.setText("Раунд " + vm.roundCount);
+        rating.setText("" + vm.myTeam.getRating());
         guessCount = 0;
         passCount = 0;
-        //isOutReported = true;
-        timer = new CountDownTimer(5000, 1000) {
+        timer = new CountDownTimer(5000, 1000)
+        {
 
             public void onTick(long millisUntilFinished) {
             }
 
             public void onFinish() {
                 setContentView(R.layout.activity_game_view);
-                //isOutReported = false;
-                //vm.startNewRound();
                 startGame();
             }
         }.start();
         Log.i("Im observer"," ");
     }
-}
 
-    // Описание Runnable-объекта
-    private Runnable timeUpdaterRunnable = new Runnable() {
-        public void run() {
-            // вычисляем время
-            timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
-            previosTime = SystemClock.uptimeMillis();
-            int second = (int) (timerTime / 1000);
-            int min = second / 60;
-            second = second % 60;
-            // выводим время
-            timerTextView.setText("" +String.format("%02d", min) + ":" + String.format("%02d", second));
-            // повторяем через каждые 200 миллисекунд
-            if (timerTime < 1000) {
-                onPause();
-               // mHandler.removeCallbacks(timeUpdaterRunnable);
-                return;
-            }
-            mHandler.postDelayed(this, 1000);
-        }
-    };
 
     @Override
     protected void onPause() {
