@@ -49,9 +49,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int passCount;
     private int guessCount;
 
-    private GameViewModel vm = new GameViewModel();
+    private GameViewModel vm;
 
-  //  private MainDBHelper dbHelper = MainDBHelper.getInstance(this);
+    private MainDBHelper dbHelper;
 
     AnimatorSet s = new AnimatorSet();
     private CountDownTimer timer;
@@ -61,6 +61,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        dbHelper = MainDBHelper.getInstance(this);
+        vm = new GameViewModel(this.getApplicationContext());
         vm.addObserver(this);
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
@@ -309,6 +311,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             @Override
             public void onAnimationStart(Animator animator) {
                 mTextView.setText(array[new Random().nextInt(100) % 5]);
+                //mTextView.setText(DB);
             }
 
             @Override
@@ -341,7 +344,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void increaseGuessWordCount() {
         guessCount++;
+        //change this when we have more han 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
+        if(vm.myTeam.isWinner(vm.gameSettings.wordCount))
+            vm.finishGame();
         guessTextView.setText(" "+ guessCount);
     }
 
@@ -352,6 +358,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private static void closeWindow(){}
     public static void showDialogAndClose(String s){
+
         closeWindow();
     }
 

@@ -45,14 +45,14 @@ public class MainMenuView extends AppCompatActivity {
     }
 
     public void openTestActivity() {
-        Intent intent = new Intent(this, SettingsView.class);
+        Intent intent = new Intent(this, RoundView.class);
         startActivity(intent);
     }
 
     public void startNewGame(View view) {
         switch (view.getId()) {
             case R.id.newGameButton:
-                Intent intent = new Intent(this, GameView.class);
+                Intent intent = new Intent(this, SettingsView.class);
                 startActivity(intent);
                 break;
             default:

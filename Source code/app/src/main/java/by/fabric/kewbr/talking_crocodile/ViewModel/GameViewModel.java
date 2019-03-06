@@ -1,4 +1,5 @@
 package by.fabric.kewbr.talking_crocodile.ViewModel;
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 
@@ -17,12 +18,16 @@ public class GameViewModel extends Observable {
     public long roundTimer;
     private CountDownTimer timer;
     public Team myTeam;
-    public GameViewModel(){
+    public GameSettings gameSettings;
+    public GameViewModel(Context context){
+        gameSettings = new GameSettings(context);
         LinkedList<String> list = new LinkedList<String>();
         list.add("Стандартная тима");
         round = new Round(list);
         myTeam = round.getCurrentTeam();
-        timer = new CountDownTimer(15000, 1000) {
+        Log.i("Settings"," "+gameSettings.wordCount);
+        Log.i("Settings"," "+gameSettings.timeOfRound);
+        timer = new CountDownTimer(gameSettings.timeOfRound*500, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
