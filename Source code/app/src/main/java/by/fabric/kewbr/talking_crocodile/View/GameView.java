@@ -4,6 +4,8 @@ import android.os.CountDownTimer;
 import android.support.animation.DynamicAnimation;
 import android.support.animation.SpringAnimation;
 import android.support.animation.SpringForce;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -26,7 +28,6 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-
 import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
@@ -56,6 +57,12 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     AnimatorSet s = new AnimatorSet();
     private CountDownTimer timer;
 
+    private boolean flag;
+    private TextView timerTextView;
+    private long timerTime = 10000;
+    private long previosTime;
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +98,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mRrootLayout = (ViewGroup) findViewById(R.id.circle);
         mImageView = (ImageView) mRrootLayout.findViewById(R.id.sun);
         mTextView = (TextView) mRrootLayout.findViewById(R.id.word);
+
         guessTextView = (TextView) mRrootLayout.findViewById(R.id.guessWordCount);
         passTextView = (TextView) mRrootLayout.findViewById(R.id.passWordCount);
         passTextView.setText("0");
         guessTextView.setText("0");
+
+        timerTextView = (TextView) mRrootLayout.findViewById(R.id.timerTextView);
 
         mTextView.setText(array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
@@ -122,6 +132,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         });
         int top = windowheight / 2;
         isEnded = false;
+
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        previosTime = SystemClock.uptimeMillis();
+        // Добавляем Runnable-объект timeUpdaterRunnable в очередь
+        // сообщений, объект должен быть запущен после задержки в 100 мс
+        mHandler.postDelayed(timeUpdaterRunnable, 100);
+
         //mImageView.setImageAlpha(128);
     }
 
@@ -386,4 +403,41 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         }.start();
         Log.i("Im observer"," ");
     }
+}
+
+    // Описание Runnable-объекта
+    private Runnable timeUpdaterRunnable = new Runnable() {
+        public void run() {
+            // вычисляем время
+            timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
+            previosTime = SystemClock.uptimeMillis();
+            int second = (int) (timerTime / 1000);
+            int min = second / 60;
+            second = second % 60;
+            // выводим время
+            timerTextView.setText("" +String.format("%02d", min) + ":" + String.format("%02d", second));
+            // повторяем через каждые 200 миллисекунд
+            if (timerTime < 1000) {
+                onPause();
+               // mHandler.removeCallbacks(timeUpdaterRunnable);
+                return;
+            }
+            mHandler.postDelayed(this, 1000);
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        // Удаляем Runnable-объект для прекращения задачи
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Добавляем Runnable-объект
+        mHandler.postDelayed(timeUpdaterRunnable, 1000);
+    }
+
 }
