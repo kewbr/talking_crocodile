@@ -2,6 +2,9 @@ package by.fabric.kewbr.talking_crocodile.View;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import android.content.Intent;
+
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -36,14 +39,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
     int windowheight; // Actually the height of the RelativeLayout.
-
     private ImageView mImageView;
     private ViewGroup mRrootLayout;
     private TextView mTextView;
     private int _yDelta;
-
     RelativeLayout.LayoutParams lp, lpInit;
-
     private boolean isEnded;
     private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
     private String[] dataFromDB;
@@ -112,6 +112,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
 
 
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stop the timers
     }
 
     private void startGame(){
@@ -361,9 +368,12 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         guessCount++;
         //change this when we have more han 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
-        if(vm.myTeam.isWinner(vm.gameSettings.wordCount))
-            vm.finishGame();
         guessTextView.setText(" "+ guessCount);
+        if(vm.myTeam.isWinner(vm.gameSettings.wordCount)) {
+            vm.stopGame();
+            finish();
+            openFinishScreen();
+        }
     }
 
     private void setOpacity(int value) {
@@ -371,11 +381,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
 
-    private static void closeWindow(){}
-    public static void showDialogAndClose(String s){
-
-        closeWindow();
-    }
+//    private static void closeWindow(){}
+//    public static void showDialogAndClose(String s){
+//
+//        closeWindow();
+//    }
 
     @Override
     public void update(Observable observable, Object o) {
@@ -415,4 +425,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mHandler.postDelayed(timeUpdaterRunnable, 1000);
     }
 
+
+    private void openFinishScreen()
+    {
+        //stopGame();
+        Intent intent = new Intent(this, FinishView.class);
+        intent.putExtra("Team Name",vm.myTeam.teamName);
+        intent.putExtra("Team Rating", vm.myTeam.getRating());
+        startActivity(intent);
+    }
 }

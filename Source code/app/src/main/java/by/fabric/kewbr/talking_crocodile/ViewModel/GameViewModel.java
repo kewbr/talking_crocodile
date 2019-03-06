@@ -14,9 +14,7 @@ import by.fabric.kewbr.talking_crocodile.View.GameView;
 public class GameViewModel extends Observable {
 
     private Round round;
-
     public int roundCount = 1;
-
     public long roundTimer;
 
     private CountDownTimer timer;
@@ -80,9 +78,8 @@ public class GameViewModel extends Observable {
         this.notifyObservers();
     }
 
-    public void finishGame(){
-
-        GameView.showDialogAndClose("Something");
+    public void stopGame(){
+        //GameView.showDialogAndClose("Something");
     }
 
 
