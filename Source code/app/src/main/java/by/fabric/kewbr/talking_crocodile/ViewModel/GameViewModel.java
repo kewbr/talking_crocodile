@@ -16,18 +16,23 @@ public class GameViewModel extends Observable {
     private Round round;
     public int roundCount = 1;
     public long roundTimer;
+
     private CountDownTimer timer;
+
     public Team myTeam;
+
     public GameSettings gameSettings;
+
     public GameViewModel(Context context){
+
         gameSettings = new GameSettings(context);
         LinkedList<String> list = new LinkedList<String>();
         list.add("Стандартная тима");
         round = new Round(list);
         myTeam = round.getCurrentTeam();
-        Log.i("Settings"," "+gameSettings.wordCount);
-        Log.i("Settings"," "+gameSettings.timeOfRound);
-        timer = new CountDownTimer(gameSettings.timeOfRound*500, 1000) {
+        Log.i("Settings"," " + gameSettings.wordCount);
+        Log.i("Settings"," " + gameSettings.timeOfRound);
+        timer = new CountDownTimer(gameSettings.timeOfRound*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
@@ -58,8 +63,7 @@ public class GameViewModel extends Observable {
         }
     }
 
-    public void startNewRound()
-    {
+    public void startNewRound() {
         if(round.isFinished())
             round.restart();
         //roundTimer = 5000;
@@ -81,3 +85,4 @@ public class GameViewModel extends Observable {
 
 
 }
+
