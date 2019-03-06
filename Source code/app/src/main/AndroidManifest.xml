@@ -58,6 +58,14 @@
             android:parentActivityName=".View.MainMenuView">
         </activity>
 
+        <activity
+            android:name=".View.FinishView"
+            android:screenOrientation="portrait"
+            android:label="Финиш"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".View.MainMenuView">
+        </activity>
+
     </application>
 
 </manifest>
