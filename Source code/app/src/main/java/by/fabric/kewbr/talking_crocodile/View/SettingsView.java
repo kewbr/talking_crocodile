@@ -1,6 +1,9 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +17,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Writer;
 
 import by.fabric.kewbr.talking_crocodile.R;
+import by.fabric.kewbr.talking_crocodile.ViewModel.GameSettings;
 
 public class SettingsView extends AppCompatActivity {
 
@@ -86,24 +93,12 @@ public class SettingsView extends AppCompatActivity {
     }
 
     public void continueButtonTapped() {
-        JSONObject settings = new JSONObject();
-        try {
-            settings.put("wordCountForWin", wordCount.getProgress());
-            settings.put("timeOfRound", timeOfRound.getProgress());
-            settings.put("inAppSounds", inAppSound.isChecked());
-            settings.put("surcharge", surcharge.isChecked());
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            Writer output = null;
-            File file = new File("roundSettings.json");
-            output = new BufferedWriter(new FileWriter(file));
-            output.write(settings.toString());
-            output.close();
-
-        } catch (Exception e) {
-
-        }
+        GameSettings tempSettings = new GameSettings(wordCount.getProgress(),
+                                                    timeOfRound.getProgress(),
+                                                    inAppSound.isChecked(),
+                                                    surcharge.isChecked());
+        tempSettings.saveToJSON(this.getApplicationContext());
+        Intent intent = new Intent(this, GameView.class);
+        startActivity(intent);
     }
 }
