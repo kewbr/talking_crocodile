@@ -1,5 +1,7 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -53,6 +56,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private GameViewModel vm;
 
     private MainDBHelper dbHelper;
+    private SQLiteDatabase mDb;
+    Cursor cursor;
 
     AnimatorSet s = new AnimatorSet();
     private CountDownTimer timer;
@@ -75,7 +80,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        dbHelper = MainDBHelper.getInstance(this);
+        dbHelper = new MainDBHelper(this);
+        try {
+            dbHelper.updateDataBase();
+        } catch (IOException ex) {
+            Log.i("err", ex.getLocalizedMessage());
+        }
+        mDb = dbHelper.getWritableDatabase();
         vm = new GameViewModel(this.getApplicationContext());
         vm.addObserver(this);
         setContentView(R.layout.start_round);
@@ -94,6 +105,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                 startGame();
             }
         }.start();
+        String topic = "easy";
+        cursor = mDb.rawQuery("SELECT * FROM words", null);
+        cursor.moveToFirst();
+        Log.i("DB", cursor.getString(1) );
+
+
+
     }
 
     private void startGame(){
@@ -133,7 +151,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         };
 
-        mTextView.setText(array[new Random().nextInt(100) % 5]);
+        mTextView.setText(cursor.getString(1));
+        cursor.moveToNext();
+                //array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
         // params that will interfere with movement of the ImageView.
@@ -305,7 +325,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                mTextView.setText(array[new Random().nextInt(100) % 5]);
+                mTextView.setText(cursor.getString(1));
+                cursor.moveToNext();
             }
 
             @Override
