@@ -45,13 +45,14 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
-    private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
+    //private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
     private String[] dataFromDB;
 
     private TextView guessTextView;
     private TextView passTextView;
     private int passCount;
     private int guessCount;
+    public int allCount;
 
     private GameViewModel vm;
 
@@ -64,7 +65,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private boolean flag;
     private TextView timerTextView;
-    private long timerTime = 10000;
+    private long timerTimeConstant;
+    private long timerTime;
     private long previosTime;
 
     private Handler mHandler = new Handler();
@@ -88,23 +90,25 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         }
         mDb = dbHelper.getWritableDatabase();
         vm = new GameViewModel(this.getApplicationContext());
+        timerTimeConstant = vm.roundTimer;
         vm.addObserver(this);
-        setContentView(R.layout.start_round);
-        TextView text = findViewById(R.id.roundName);
-        text.setText("Раунд " + vm.roundCount);
-
-
-        timer = new CountDownTimer(5000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                setContentView(R.layout.activity_game_view);
-                startGame();
-            }
-        }.start();
+        startRoundScreen();
+//        setContentView(R.layout.start_round);
+//        TextView text = findViewById(R.id.roundName);
+//        text.setText("Раунд " + vm.roundCount);
+//
+//
+//        timer = new CountDownTimer(5000, 1000) {
+//
+//            public void onTick(long millisUntilFinished) {
+//
+//            }
+//
+//            public void onFinish() {
+//                setContentView(R.layout.activity_game_view);
+//                startGame();
+//            }
+//        }.start();
         String topic = "easy";
         cursor = mDb.rawQuery("SELECT * FROM words", null);
         cursor.moveToFirst();
@@ -115,14 +119,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     }
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //stop the timers
-    }
-
     private void startGame(){
-        timerTime = 10000;
         vm.startNewRound();
         // We are interested when the image view leaves its parent RelativeLayout
         // container and not the screen, so the following code is not needed.
@@ -138,10 +135,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         timerTextView = (TextView) mRrootLayout.findViewById(R.id.timerTextView);
 
+        timerTime = timerTimeConstant;
         timeUpdaterRunnable = new Runnable() {
             public void run() {
                 // вычисляем время
-                timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
+                timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);
                 previosTime = SystemClock.uptimeMillis();
                 int second = (int) (timerTime / 1000);
                 int min = second / 60;
@@ -357,6 +355,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void increasePassWordCount() {
         passCount++;
+        allCount++;
         //because we have only 1 team, so we don't need to implement a full method to work with teams
         if(vm.myTeam.getRating()>0)
         vm.myTeam.decreaseRating();
@@ -366,11 +365,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void increaseGuessWordCount() {
         guessCount++;
-        //change this when we have more han 1 team to " vm.inspectTeamsRating()"
+        allCount++;
+        //change this when we have more than 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
         guessTextView.setText(" "+ guessCount);
         if(vm.myTeam.isWinner(vm.gameSettings.wordCount)) {
             vm.stopGame();
+            vm.deleteObserver(this);
             finish();
             openFinishScreen();
         }
@@ -389,6 +390,49 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     @Override
     public void update(Observable observable, Object o) {
+        //onPause();
+        openRoundEndScreen();
+    }
+
+
+    @Override
+    protected void onPause() {
+        // Удаляем Runnable-объект для прекращения задачи
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Добавляем Runnable-объект
+        if(vm.roundTimer == 0) {
+            guessCount = 0;
+            passCount = 0;
+            mHandler.removeCallbacks(timeUpdaterRunnable);
+            startRoundScreen();
+            //startGame();
+        }
+        else
+        {
+            //previosTime = SystemClock.uptimeMillis();
+            //timerTime = timerTimeConstant;
+            // Добавляем Runnable-объект timeUpdaterRunnable в очередь
+            // сообщений, объект должен быть запущен после задержки в 100 мс
+            mHandler.postDelayed(timeUpdaterRunnable, 100);
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        super.onStop();
+        vm.stopGame();
+        //stop the timers
+    }
+
+    private void startRoundScreen(){
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
         TextView rating = findViewById(R.id.rating);
@@ -410,28 +454,20 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         Log.i("Im observer"," ");
     }
 
-
-    @Override
-    protected void onPause() {
-        // Удаляем Runnable-объект для прекращения задачи
-        mHandler.removeCallbacks(timeUpdaterRunnable);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Добавляем Runnable-объект
-        mHandler.postDelayed(timeUpdaterRunnable, 1000);
-    }
-
-
     private void openFinishScreen()
     {
-        //stopGame();
         Intent intent = new Intent(this, FinishView.class);
         intent.putExtra("Team Name",vm.myTeam.teamName);
         intent.putExtra("Team Rating", vm.myTeam.getRating());
+        startActivity(intent);
+    }
+
+    private void openRoundEndScreen()
+    {
+        Intent intent = new Intent(this, RoundView.class);
+        intent.putExtra("Words Count", allCount);
+        intent.putExtra("Team Name",vm.myTeam.teamName);
+        intent.putExtra("Current Rating", guessCount-passCount);
         startActivity(intent);
     }
 }

@@ -32,6 +32,7 @@ public class GameViewModel extends Observable {
         myTeam = round.getCurrentTeam();
         Log.i("Settings"," " + gameSettings.wordCount);
         Log.i("Settings"," " + gameSettings.timeOfRound);
+        roundTimer = gameSettings.timeOfRound*1000;
         timer = new CountDownTimer(gameSettings.timeOfRound*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -73,12 +74,15 @@ public class GameViewModel extends Observable {
 
     public void onChanged(){
         //if(this.hasChanged())
+        timer.cancel();
         roundCount++;
         this.setChanged();
         this.notifyObservers();
     }
 
     public void stopGame(){
+        timer.cancel();
+        //roundCount = 0;
         //GameView.showDialogAndClose("Something");
     }
 
