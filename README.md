@@ -7,13 +7,13 @@
 # Краткое описание
 "Болтливый крокодил" – приложение для веселого отдыха в компании друзей. Это командная игра для 2х и более человек, суть которой - объяснение слова на экране вашего устройства по определенным правилам. 
 
-#### [Product backlog](https://trello.com/b/IRa1SGNU/%D0%B1%D0%BE%D0%BB%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%BA%D1%80%D0%BE%D0%BA%D0%BE%D0%B4%D0%B8%D0%BB)<br>
-
-#### [Product backlog](https://trello.com/b/IRa1SGNU/%D0%B1%D0%BE%D0%BB%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%BA%D1%80%D0%BE%D0%BA%D0%BE%D0%B4%D0%B8%D0%BB)<br>
 
 ## Содержание:</h4>
 1. [Документация](Documents/)<br>
 1.1 [Требования]()<br>
+1.1.1 [Product backlog](Documents/Requirements/Product_backlog.pdf)<br>
+1.1.2 [Sprint 1 backlog](Documents/Requirements/Sprint_1_backlog.pdf)<br>
+1.1.3 [Sprint 2 backlog](Documents/Requirements/Sprint_2_backlog.pdf)<br>
 1.2 [Диаграммы](Documents/Diagrams)<br>
 1.3 [Глоссарий](Documents/Glossary/Glossary.md)<br>
 2. [Код](Source%20code/)<br>
