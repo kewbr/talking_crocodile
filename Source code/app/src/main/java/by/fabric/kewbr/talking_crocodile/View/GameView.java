@@ -28,15 +28,14 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
-import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
+import by.fabric.kewbr.talking_crocodile.Model.WordsModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
+import io.realm.Realm;
 
 public class GameView extends AppCompatActivity  implements View.OnTouchListener, Observer {
 
-    //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
     int windowheight; // Actually the height of the RelativeLayout.
     private ImageView mImageView;
@@ -45,7 +44,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
-    //private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
     private String[] dataFromDB;
 
     private TextView guessTextView;
@@ -55,10 +53,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     public int allCount;
 
     private GameViewModel vm;
-
-    private MainDBHelper dbHelper;
-    private SQLiteDatabase mDb;
-    Cursor cursor;
 
     AnimatorSet s = new AnimatorSet();
     private CountDownTimer timer;
@@ -82,39 +76,15 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        dbHelper = new MainDBHelper(this);
-        try {
-            dbHelper.updateDataBase();
-        } catch (IOException ex) {
-            Log.i("err", ex.getLocalizedMessage());
-        }
-        mDb = dbHelper.getWritableDatabase();
+
         vm = new GameViewModel(this.getApplicationContext());
         timerTimeConstant = vm.roundTimer;
         vm.addObserver(this);
         startRoundScreen();
-//        setContentView(R.layout.start_round);
-//        TextView text = findViewById(R.id.roundName);
-//        text.setText("Раунд " + vm.roundCount);
-//
-//
-//        timer = new CountDownTimer(5000, 1000) {
-//
-//            public void onTick(long millisUntilFinished) {
-//
-//            }
-//
-//            public void onFinish() {
-//                setContentView(R.layout.activity_game_view);
-//                startGame();
-//            }
-//        }.start();
-        String topic = "easy";
-        cursor = mDb.rawQuery("SELECT * FROM words", null);
-        cursor.moveToFirst();
-        Log.i("DB", cursor.getString(1) );
 
+        Realm realm = Realm.getDefaultInstance();
 
+        WordsModel word = realm.where(WordsModel.class).findFirst();
 
     }
 
@@ -156,8 +126,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         };
 
-        mTextView.setText(cursor.getString(1));
-        cursor.moveToNext();
+        mTextView.setText("АЛЛО БАЗА НА РЕКОНСТРУКЦИИ ОТЪЕБИСЬ!");
                 //array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
@@ -330,9 +299,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                mTextView.setText(cursor.getString(1));
-                cursor.moveToNext();
-            }
+                mTextView.setText("Алло БАЗА НА РЕКОНСТРУКЦИИ ОТЪЕБИСЬ!");
+
+        }
 
             @Override
             public void onAnimationEnd(Animator animator) {

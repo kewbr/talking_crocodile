@@ -1,56 +1,31 @@
 package by.fabric.kewbr.talking_crocodile.Adapter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
-import by.fabric.kewbr.talking_crocodile.Database.Word;
-import by.fabric.kewbr.talking_crocodile.Model.WordModel;
+import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 
 public class RoundWordsAdapter extends
         RecyclerView.Adapter<RoundWordsAdapter.RoundWordsViewHolder> {
 
     private int countOfWordsItems;
-    private MainDBHelper dbHelper;
-    private SQLiteDatabase mDb;
-    Cursor cursor;
-    private ArrayList<WordModel> list;
+
+
+    private String list[] = {"УБЕЙСЯ", "НАХУЙ", "Ублюдок"};
 
     public RoundWordsAdapter (int countOfWordsItems, Context context) {
 
-        this.countOfWordsItems = countOfWordsItems;
-        list = new ArrayList<WordModel>();
+        this.countOfWordsItems = 3;
 
-        dbHelper = new MainDBHelper(context);
-        try {
-            dbHelper.updateDataBase();
-        } catch (IOException ex) {
-            Log.i("err", ex.getLocalizedMessage());
-        }
-        mDb = dbHelper.getWritableDatabase();
-
-        cursor = mDb.rawQuery("SELECT * FROM words", null);
-        cursor.moveToFirst();
-        Log.i("DB", cursor.getString(1) );
-        for (int j =0; j<countOfWordsItems;j++){
-            list.add(j,new WordModel(cursor.getString(1),true));
-            cursor.moveToNext();
-        }
-        Log.i("Word list count", "" + list.size() );
     }
 
     @NonNull
@@ -68,8 +43,7 @@ public class RoundWordsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull RoundWordsViewHolder roundWordsViewHolder, int i) {
         //MARK – Here update element of recyclerView
-        //roundWordsViewHolder.bind("Привет скрам-мастер!", true);
-        roundWordsViewHolder.bind(list.get(i).getWord(),list.get(i).getGuessed());
+        roundWordsViewHolder.bind(list[i], true);
 
     }
 
@@ -82,7 +56,7 @@ public class RoundWordsAdapter extends
 
         TextView wordTextView;
         CheckBox wordCheckBox;
-        WordModel word;
+        WordStatusModel word;
         public RoundWordsViewHolder(View itemView) {
             super(itemView);
 
@@ -92,7 +66,9 @@ public class RoundWordsAdapter extends
         }
 
         void bind(String currentWord, boolean checked) {
-            word = new WordModel(currentWord,checked);
+            word = new WordStatusModel();
+            word.setWord(currentWord);
+            word.setGuessed(checked);
             wordTextView.setText(currentWord);
             wordCheckBox.setChecked(checked);
         }

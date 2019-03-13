@@ -75,7 +75,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
-            android:onClick="startNewGame"
             android:text="@string/NewGame"
             android:textColor="@color/colorAccent"
             android:textSize="25sp"
