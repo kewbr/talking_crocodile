@@ -10,6 +10,7 @@ public class DatabaseConfigurator {
     public static void configure() {
 
         RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(23)
                 .migration(new DatabaseMigration())
                 .assetFile(DATABASE_NAME)
                 .build();

@@ -1,13 +1,15 @@
 package by.fabric.kewbr.talking_crocodile.Model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
-public class WordStatusModel {
+public class WordStatusModel extends RealmObject {
 
     private String teamName;
+    @Required
     private String word;
     private boolean guessed;
-
+    private Long roundNumber;
 
     public String getTeamName() {
 
@@ -39,5 +41,16 @@ public class WordStatusModel {
     public void setGuessed(boolean guessed){
 
         this.guessed = guessed;
+    }
+
+
+    public Long getRoundNumber() {
+
+        return roundNumber;
+    }
+
+    public void setRoundNumber(Long roundNumber) {
+
+        this.roundNumber = roundNumber;
     }
 }

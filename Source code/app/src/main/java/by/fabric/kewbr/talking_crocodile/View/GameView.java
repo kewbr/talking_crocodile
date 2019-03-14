@@ -1,8 +1,5 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import android.content.Intent;
 
 import android.os.CountDownTimer;
