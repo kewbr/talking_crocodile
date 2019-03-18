@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="by.fabric.kewbr.talking_crocodile" >
+    package="by.fabric.kewbr.talking_crocodile">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,26 +12,61 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="by.fabric.kewbr.talking_crocodile.GameView"
+
+        <activity
+            android:name=".View.GameView"
+            android:label="Болтливый крокодил"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="by.fabric.kewbr.talking_crocodile.MainMenu"
+
+        <activity
+            android:name=".View.SettingsView"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".View.MainMenuView"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ec36cb8b2a6a19dc03003abc3b5568cac27e2764" />
-        <activity android:name="by.fabric.kewbr.talking_crocodile.Rules"
-            android:parentActivityName="by.fabric.kewbr.talking_crocodile.MainMenu"
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".View.RulesView"
+            android:label="Правила"
+            android:parentActivityName=".View.MainMenuView"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".View.RoundView"
             android:screenOrientation="portrait"
-            android:label="Правила"/>
+            android:label="Меню"
+            android:parentActivityName=".View.MainMenuView">
+        </activity>
+
+        <activity
+            android:name=".View.FinishView"
+            android:screenOrientation="portrait"
+            android:label="Финиш"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".View.MainMenuView">
+        </activity>
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
