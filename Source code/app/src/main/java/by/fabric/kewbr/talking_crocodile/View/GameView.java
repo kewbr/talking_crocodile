@@ -328,7 +328,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         //change this when we have more than 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
         guessTextView.setText(" "+ guessCount);
-        if(vm.myTeam.isWinner(vm.gameSettings.wordCount)) {
+        if(vm.myTeam.isWinner((int)vm.gameSettingsViewModel.settings.getWordsForWinCount())) {
             vm.stopGame();
             vm.deleteObserver(this);
             finish();

@@ -1,32 +1,24 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Writer;
-
+import by.fabric.kewbr.talking_crocodile.Model.SettingsModel;
 import by.fabric.kewbr.talking_crocodile.R;
-import by.fabric.kewbr.talking_crocodile.ViewModel.GameSettings;
+import by.fabric.kewbr.talking_crocodile.ViewModel.GameSettingsViewModel;
 
 public class SettingsView extends AppCompatActivity {
+
+    private GameSettingsViewModel gameSettingsViewModel;
 
     private SeekBar wordCount;
     private TextView wordCountTextView;
@@ -45,14 +37,22 @@ public class SettingsView extends AppCompatActivity {
 
         setContentView(R.layout.settings_view);
 
+        this.gameSettingsViewModel = new GameSettingsViewModel();
+
         wordCount = (SeekBar) findViewById(R.id.wordSeekBar);
+        wordCount.setProgress((int)this.gameSettingsViewModel.settings.getWordsForWinCount());
         wordCountTextView = (TextView) findViewById(R.id.countOfWords);
+        wordCountTextView.setText(String.valueOf(this.gameSettingsViewModel.settings.getWordsForWinCount()));
 
         timeOfRound = (SeekBar) findViewById(R.id.timeSeekBar);
+        timeOfRound.setProgress((int)this.gameSettingsViewModel.settings.getDurationOfRound());
         timeOfRoundTextView = (TextView) findViewById(R.id.timeOfRound);
+        timeOfRoundTextView.setText(String.valueOf(this.gameSettingsViewModel.settings.getDurationOfRound()));
 
         inAppSound = (Switch) findViewById(R.id.soundInAppSwitch);
+        inAppSound.setChecked(this.gameSettingsViewModel.settings.isInAppSound());
         surcharge = (Switch) findViewById(R.id.surcharge);
+        surcharge.setChecked(this.gameSettingsViewModel.settings.isChargeForPassing());
 
         continueButton = (Button) findViewById(R.id.continueButton);
         continueButton.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +93,16 @@ public class SettingsView extends AppCompatActivity {
     }
 
     public void continueButtonTapped() {
-        GameSettings tempSettings = new GameSettings(wordCount.getProgress(),
-                                                    timeOfRound.getProgress(),
-                                                    inAppSound.isChecked(),
-                                                    surcharge.isChecked());
-//        tempSettings.saveToJSON(this.getApplicationContext());
 
-        //точка перехода на следующий экран
+        SettingsModel settingsForGame = new SettingsModel();
+        settingsForGame.setWordsForWinCount(new Long(wordCount.getProgress()));
+        settingsForGame.setChargeForPassing(surcharge.isChecked());
+        settingsForGame.setTopic("easy");                                       //HARDCODE!!!!!
+        settingsForGame.setInAppSound(inAppSound.isChecked());
+        settingsForGame.setDurationOfRound(new Long(timeOfRound.getProgress()));
+
+        gameSettingsViewModel.manageSettings(settingsForGame);
+
         Intent intent = new Intent(this, GameView.class);
         startActivity(intent);
     }

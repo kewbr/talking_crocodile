@@ -32,14 +32,14 @@ public class GameViewModel extends Observable {
     private CountDownTimer timer;
 
     public Team myTeam;
-    public GameSettings gameSettings;
+    public GameSettingsViewModel gameSettingsViewModel;
 
     private List<WordsModel> words = new ArrayList<>();
 
 
     public GameViewModel(Context context){
 
-        gameSettings = new GameSettings(context);
+        this.gameSettingsViewModel = new GameSettingsViewModel();
         RealmResults<WordsModel> result = databaseInstance
                 .where(WordsModel.class)
                 .equalTo("topic", "easy")
@@ -50,10 +50,10 @@ public class GameViewModel extends Observable {
         list.add("Стандартная тима");
         round = new Round(list);
         myTeam = round.getCurrentTeam();
-        Log.i("Settings"," " + gameSettings.wordCount);
-        Log.i("Settings"," " + gameSettings.timeOfRound);
-        roundTimer = gameSettings.timeOfRound*1000;
-        timer = new CountDownTimer(gameSettings.timeOfRound*1000, 1000) {
+        Log.i("Settings"," " + gameSettingsViewModel.settings.getWordsForWinCount());
+        Log.i("Settings"," " + gameSettingsViewModel.settings.getDurationOfRound());
+        roundTimer = this.gameSettingsViewModel.settings.getDurationOfRound()*1000;
+        timer = new CountDownTimer(this.gameSettingsViewModel.settings.getDurationOfRound()*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
