@@ -14,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import by.fabric.kewbr.talking_crocodile.Database.DatabaseConfigurator;
 import by.fabric.kewbr.talking_crocodile.Model.Round;
 import by.fabric.kewbr.talking_crocodile.Model.Team;
+import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.Model.WordsModel;
 import by.fabric.kewbr.talking_crocodile.View.GameView;
 import io.realm.Realm;
@@ -46,6 +47,9 @@ public class GameViewModel extends Observable {
                 .findAll();
         words.addAll(databaseInstance.copyFromRealm(result));
         words = mix(words);
+
+        this.clearLastGameResult();
+
         LinkedList<String> list = new LinkedList<String>();
         list.add("Стандартная тима");
         round = new Round(list);
@@ -67,6 +71,16 @@ public class GameViewModel extends Observable {
                 //mTextField.setText("done!");
             }
         };
+    }
+
+    private void clearLastGameResult() {
+        databaseInstance.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<WordStatusModel> result = realm.where(WordStatusModel.class).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
     }
 
     private void collectGamelog(){}
@@ -132,8 +146,12 @@ public class GameViewModel extends Observable {
     }
 
     //будем записывать в модельку
-    public void writeToDatabase(WordsModel model) {
+    public void writeToDatabase(WordStatusModel model) {
+        databaseInstance.beginTransaction();
 
+        WordStatusModel result = databaseInstance.copyToRealm(model);
+
+        databaseInstance.commitTransaction();
     }
 
 }

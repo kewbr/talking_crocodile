@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 
@@ -18,14 +21,12 @@ public class RoundWordsAdapter extends
         RecyclerView.Adapter<RoundWordsAdapter.RoundWordsViewHolder> {
 
     private int countOfWordsItems;
+    private List<WordStatusModel> words;
 
+    public RoundWordsAdapter (List<WordStatusModel> words, Context context) {
 
-    private String list[] = {"УБЕЙСЯ", "НАХУЙ", "Ублюдок"};
-
-    public RoundWordsAdapter (int countOfWordsItems, Context context) {
-
-        this.countOfWordsItems = 3;
-
+        this.countOfWordsItems = words.size();
+        this.words = new ArrayList<>(words);
     }
 
     @NonNull
@@ -43,8 +44,7 @@ public class RoundWordsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull RoundWordsViewHolder roundWordsViewHolder, int i) {
         //MARK – Here update element of recyclerView
-        roundWordsViewHolder.bind(list[i], true);
-
+        roundWordsViewHolder.bind(this.words.get(i).getWord(), this.words.get(i).getGuessed());
     }
 
     @Override

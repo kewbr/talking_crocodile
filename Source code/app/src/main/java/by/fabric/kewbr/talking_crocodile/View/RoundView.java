@@ -10,16 +10,22 @@ import android.widget.TextView;
 
 import by.fabric.kewbr.talking_crocodile.Adapter.RoundWordsAdapter;
 import by.fabric.kewbr.talking_crocodile.R;
+import by.fabric.kewbr.talking_crocodile.ViewModel.RoundViewModel;
+import io.realm.Realm;
 
 public class RoundView extends AppCompatActivity {
 
     private RecyclerView wordsList;
     private RoundWordsAdapter wordsAdapter;
+    private RoundViewModel roundViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.round_view);
+        Bundle extras = getIntent().getExtras();
+        this.roundViewModel = new RoundViewModel(extras.getInt("roundNumber")-1);    ////КАКОГО ТО ХУЯ ТУТ +1
+
         wordsList = findViewById(R.id.wordsRecyclerView);
         TextView teamName = findViewById(R.id.comandNameTextView);
         TextView currentRating = findViewById(R.id.currentCountTextView);
@@ -29,25 +35,25 @@ public class RoundView extends AppCompatActivity {
         wordsList.setLayoutManager(layoutManager);
         wordsList.setHasFixedSize(true) ;
 
-        int wordsCount;
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                wordsCount= 0;
-                currentRating.setText("+" + 0);
-                teamName.setText("Стандартная тима");
-            } else {
-                wordsCount = extras.getInt("Words Count");
-                currentRating.setText("" + extras.getInt("Current Rating"));
-                teamName.setText(extras.getString("Team Name"));
-            }
-        } else {
-            wordsCount = (int) savedInstanceState.getSerializable("Words Count");
-            currentRating.setText("" + (int) savedInstanceState.getSerializable("Current Rating"));
-            teamName.setText((String) savedInstanceState.getSerializable("Team Name"));
-        }
-        Log.i("Words count", "" + wordsCount );
-        wordsAdapter = new RoundWordsAdapter(wordsCount, this);
+        //        if (savedInstanceState == null) {
+//            Bundle extras = getIntent().getExtras();
+//            if(extras == null) {
+//                wordsCount= 0;
+//                currentRating.setText("+" + 0);
+//                teamName.setText("Стандартная тима");
+//            } else {
+//                wordsCount = extras.getInt("Words Count");
+//                currentRating.setText("" + extras.getInt("Current Rating"));
+//                teamName.setText(extras.getString("Team Name"));
+//            }
+//        } else {
+//            wordsCount = (int) savedInstanceState.getSerializable("Words Count");
+//            currentRating.setText("" + (int) savedInstanceState.getSerializable("Current Rating"));
+//            teamName.setText((String) savedInstanceState.getSerializable("Team Name"));
+//        }
+//        Log.i("Words count", "" + wordsCount );
+
+        wordsAdapter = new RoundWordsAdapter(roundViewModel.getWords(), this);
         wordsList.setAdapter(wordsAdapter);
 
     }

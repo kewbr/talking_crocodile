@@ -25,6 +25,7 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 
+import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
 
@@ -266,13 +267,22 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         });
         animation = ValueAnimator.ofInt(lp.topMargin, (windowheight - mImageView.getHeight()) / 2);
+
+        WordStatusModel word = new WordStatusModel();
+        word.setGuessed(isPullUp);
+        word.setRoundNumber(Long.valueOf(vm.roundCount));
+        word.setTeamName(vm.myTeam.teamName);     ////////CHECK !!!!!!!!!
+        word.setWord(mTextView.getText().toString());
+
         if (isPullUp) {
             increaseGuessWordCount();
-
 
         } else {
             increasePassWordCount();
         }
+
+        vm.writeToDatabase(word);
+
         animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator updatedAnimation) {
@@ -327,6 +337,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         allCount++;
         //change this when we have more than 1 team to " vm.inspectTeamsRating()"
         vm.myTeam.increaseRating();
+
+
         guessTextView.setText(" "+ guessCount);
         if(vm.myTeam.isWinner((int)vm.gameSettingsViewModel.settings.getWordsForWinCount())) {
             vm.stopGame();
@@ -418,9 +430,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private void openRoundEndScreen()
     {
         Intent intent = new Intent(this, RoundView.class);
-        intent.putExtra("Words Count", allCount);
-        intent.putExtra("Team Name",vm.myTeam.teamName);
-        intent.putExtra("Current Rating", guessCount-passCount);
+//        intent.putExtra("Words Count", allCount);
+//        intent.putExtra("Team Name",vm.myTeam.teamName);
+//        intent.putExtra("Current Rating", guessCount-passCount);
+        intent.putExtra("roundNumber", vm.roundCount);
         startActivity(intent);
     }
 }
