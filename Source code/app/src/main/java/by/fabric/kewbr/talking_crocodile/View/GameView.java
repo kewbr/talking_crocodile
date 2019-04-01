@@ -22,14 +22,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import by.fabric.kewbr.talking_crocodile.Model.WordsModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
-import io.realm.Realm;
 
 public class GameView extends AppCompatActivity  implements View.OnTouchListener, Observer {
 
@@ -79,10 +76,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         vm.addObserver(this);
         startRoundScreen();
 
-        Realm realm = Realm.getDefaultInstance();
-
-        WordsModel word = realm.where(WordsModel.class).findFirst();
-
     }
 
 
@@ -123,7 +116,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         };
 
-        mTextView.setText("АЛЛО БАЗА НА РЕКОНСТРУКЦИИ ОТЪЕБИСЬ!");
+        mTextView.setText(vm.getCurrentWord().getWord());
                 //array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
@@ -296,7 +289,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                mTextView.setText("Алло БАЗА НА РЕКОНСТРУКЦИИ ОТЪЕБИСЬ!");
+                mTextView.setText(vm.getCurrentWord().getWord());
 
         }
 
@@ -347,12 +340,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mImageView.setImageAlpha(value);
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
-
-//    private static void closeWindow(){}
-//    public static void showDialogAndClose(String s){
-//
-//        closeWindow();
-//    }
 
     @Override
     public void update(Observable observable, Object o) {

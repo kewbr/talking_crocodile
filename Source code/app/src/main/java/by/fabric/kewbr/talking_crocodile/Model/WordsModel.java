@@ -12,7 +12,7 @@ public class WordsModel extends RealmObject {
         return this.id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -20,7 +20,7 @@ public class WordsModel extends RealmObject {
         return this.word;
     }
 
-    void setWord(String word) {
+    public void setWord(String word) {
         this.word = word;
     }
 
@@ -28,7 +28,7 @@ public class WordsModel extends RealmObject {
         return this.topic;
     }
 
-    void setTopic(String topic) {
+    public void setTopic(String topic) {
         this.topic = topic;
     }
 }

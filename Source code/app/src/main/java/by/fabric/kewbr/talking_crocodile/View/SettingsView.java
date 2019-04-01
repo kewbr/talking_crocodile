@@ -97,7 +97,9 @@ public class SettingsView extends AppCompatActivity {
                                                     timeOfRound.getProgress(),
                                                     inAppSound.isChecked(),
                                                     surcharge.isChecked());
-        tempSettings.saveToJSON(this.getApplicationContext());
+//        tempSettings.saveToJSON(this.getApplicationContext());
+
+        //точка перехода на следующий экран
         Intent intent = new Intent(this, GameView.class);
         startActivity(intent);
     }
