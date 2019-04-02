@@ -18,7 +18,6 @@ public class TeamNamesModel extends RealmObject {
         this.teamName = teamName;
     }
 
-
     public Long getId() {
 
         return id;

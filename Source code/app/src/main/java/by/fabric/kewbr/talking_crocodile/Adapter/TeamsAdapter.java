@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.fabric.kewbr.talking_crocodile.Model.TeamNamesModel;
 import by.fabric.kewbr.talking_crocodile.R;
 
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
@@ -21,9 +22,9 @@ public class TeamsAdapter extends
         RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>  {
 
     private int countOfTeamsItems;
-    private List<String> teams;
+    private List<TeamNamesModel> teams;
 
-    public TeamsAdapter (List<String> teams, Context context) {
+    public TeamsAdapter (List<TeamNamesModel> teams, Context context) {
 
         this.countOfTeamsItems = teams.size();
         this.teams = new ArrayList<>(teams);
@@ -42,10 +43,10 @@ public class TeamsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull TeamsAdapter.TeamsViewHolder TeamsViewHolder, int i) {
         //MARK – Here update element of recyclerView
-        TeamsViewHolder.bind(this.teams.get(i));
+        TeamsViewHolder.bind(this.teams.get(i).getTeamName());
     }
 
-    public void addItem(String team) {
+    public void addItem(TeamNamesModel team) {
         teams.add(team);
         countOfTeamsItems++;
         notifyDataSetChanged();
