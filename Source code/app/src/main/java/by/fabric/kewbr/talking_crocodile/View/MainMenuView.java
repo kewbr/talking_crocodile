@@ -63,6 +63,13 @@ public class MainMenuView extends AppCompatActivity {
                 openRulesActivity();
             }
         });
+        continueButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                test();
+            }
+        });
     }
 
     private void openRulesActivity() {
@@ -74,6 +81,12 @@ public class MainMenuView extends AppCompatActivity {
     private void openNewGameActivity() {
 
         Intent intent = new Intent(this, SettingsView.class);
+        startActivity(intent);
+    }
+
+    private void test() {
+
+        Intent intent = new Intent(this, TeamsView.class);
         startActivity(intent);
     }
 }

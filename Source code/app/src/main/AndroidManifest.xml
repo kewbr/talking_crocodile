@@ -26,6 +26,12 @@
         </activity>
 
         <activity
+            android:name=".View.TeamsView"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".View.MainMenuView"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
