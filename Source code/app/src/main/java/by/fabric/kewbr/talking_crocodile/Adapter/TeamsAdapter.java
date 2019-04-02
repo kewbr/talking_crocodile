@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import by.fabric.kewbr.talking_crocodile.Model.TeamNamesModel;
 import by.fabric.kewbr.talking_crocodile.R;
@@ -23,11 +24,13 @@ public class TeamsAdapter extends
 
     private int countOfTeamsItems;
     private List<TeamNamesModel> teams;
+    private List<TeamNamesModel> allTeams;
 
-    public TeamsAdapter (List<TeamNamesModel> teams, Context context) {
+    public TeamsAdapter (List<TeamNamesModel> teams, Context context, List<TeamNamesModel> allTeams) {
 
         this.countOfTeamsItems = teams.size();
         this.teams = new ArrayList<>(teams);
+        this.allTeams = new ArrayList<>(allTeams);
     }
 
     @NonNull
@@ -46,15 +49,26 @@ public class TeamsAdapter extends
         TeamsViewHolder.bind(this.teams.get(i).getTeamName());
     }
 
-    public void addItem(TeamNamesModel team) {
-        teams.add(team);
-        countOfTeamsItems++;
-        notifyDataSetChanged();
+    public void addItem() {
+        if(countOfTeamsItems <=20) {
+            Random random = new Random();
+            int i = random.nextInt(54);
+            while (teams.contains(allTeams.get(i))) {
+                i = random.nextInt(54);
+            }
+            teams.add(allTeams.get(i));
+            countOfTeamsItems++;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
         return countOfTeamsItems;
+    }
+
+    public List<TeamNamesModel> getTeams() {
+        return teams;
     }
 
     class TeamsViewHolder extends RecyclerView.ViewHolder {
@@ -75,6 +89,14 @@ public class TeamsAdapter extends
                 }
             });
 
+            teamTextView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    updateTeamName();
+                }
+            });
+
         }
            void bind(String teamName) {
               teamTextView.setText(teamName);
@@ -83,6 +105,15 @@ public class TeamsAdapter extends
                teams.remove(getAdapterPosition());
                countOfTeamsItems--;
                notifyDataSetChanged();
+           }
+
+            void updateTeamName(){
+            Random random = new Random();
+            int i = random.nextInt(54);
+            while(teams.contains(allTeams.get(i))){i = random.nextInt(54);}
+            teams.set(getAdapterPosition(), allTeams.get(i));
+            teamTextView.setText(allTeams.get(i).getTeamName());
+            notifyDataSetChanged();
            }
     }
 }

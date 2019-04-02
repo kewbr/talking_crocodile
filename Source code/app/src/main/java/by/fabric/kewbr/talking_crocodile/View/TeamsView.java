@@ -1,22 +1,19 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 
 import by.fabric.kewbr.talking_crocodile.Adapter.TeamsAdapter;
-import by.fabric.kewbr.talking_crocodile.Model.TeamNamesModel;
+
+import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
+import by.fabric.kewbr.talking_crocodile.Model.SettingsModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.TeamsViewModel;
 
@@ -27,6 +24,7 @@ public class TeamsView extends AppCompatActivity {
     private TeamsViewModel teamsViewModel;
 
     private Button addButton;
+    private Button continueButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +33,14 @@ public class TeamsView extends AppCompatActivity {
         this.teamsViewModel = new TeamsViewModel();
         setContentView(R.layout.teams);
         teamsList = findViewById(R.id.wordsRecyclerView);
-        TextView teamName = findViewById(R.id.comandNameTextView);
-        TextView currentRating = findViewById(R.id.currentCountTextView);
         addButton = findViewById(R.id.addButton);
+        continueButton = findViewById(R.id.continueButton);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         teamsList.setLayoutManager(layoutManager);
         teamsList.setHasFixedSize(true) ;
 
-        teamsAdapter = new TeamsAdapter(teamsViewModel.getTeams(), this);
+        teamsAdapter = new TeamsAdapter(teamsViewModel.getTeams().subList(0,2), this, teamsViewModel.getTeams());
         teamsList.setAdapter(teamsAdapter);
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -53,14 +50,32 @@ public class TeamsView extends AppCompatActivity {
                 addTeam();
             }
         });
+        continueButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                openSettingActivity();
+            }
+        });
 
     }
 
     private void addTeam() {
-        TeamNamesModel team = new TeamNamesModel();
-        team.setId(Long.valueOf(123));
-        team.setTeamName("ХУЙ");
-        teamsAdapter.addItem(team);
+        teamsAdapter.addItem();
+    }
+
+    private void openSettingActivity() {
+        //сохранение реальных в базу тут должно быть. а вот как...
+        //что-то типа этого возможно
+        /*
+        ProgressModel progressModel = new ProgressModel();
+        for (int i = 0; i < teamsAdapter.getTeams().size(); i++){
+            progressModel.setTeamName(teamsAdapter.getTeams().get(i).getTeamName());
+            progressModel.setGuessedCount(Long.parseLong("0"));
+        }
+        */
+        Intent intent = new Intent(this, SettingsView.class);
+        startActivity(intent);
     }
 }
 
