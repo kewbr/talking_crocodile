@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import by.fabric.kewbr.talking_crocodile.Adapter.RoundWordsAdapter;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.RoundViewModel;
-import io.realm.Realm;
 
 public class RoundView extends AppCompatActivity {
 
