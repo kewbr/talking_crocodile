@@ -95,6 +95,7 @@ public class SettingsView extends AppCompatActivity {
     public void continueButtonTapped() {
 
         SettingsModel settingsForGame = new SettingsModel();
+
         settingsForGame.setWordsForWinCount(new Long(wordCount.getProgress()));
         settingsForGame.setChargeForPassing(surcharge.isChecked());
         settingsForGame.setTopic("easy");                                       //HARDCODE!!!!!

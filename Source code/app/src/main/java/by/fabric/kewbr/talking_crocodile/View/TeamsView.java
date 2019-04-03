@@ -59,7 +59,7 @@ public class TeamsView extends AppCompatActivity {
     private void addTeam() {
         TeamNamesModel team = new TeamNamesModel();
         team.setId(Long.valueOf(123));
-        team.setTeamName("ХУЙ");
+        team.setTeamName("Имя команды");
         teamsAdapter.addItem(team);
     }
 }

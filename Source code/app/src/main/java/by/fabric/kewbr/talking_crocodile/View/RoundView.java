@@ -33,27 +33,8 @@ public class RoundView extends AppCompatActivity {
         wordsList.setLayoutManager(layoutManager);
         wordsList.setHasFixedSize(true) ;
 
-        //        if (savedInstanceState == null) {
-//            Bundle extras = getIntent().getExtras();
-//            if(extras == null) {
-//                wordsCount= 0;
-//                currentRating.setText("+" + 0);
-//                teamName.setText("Стандартная тима");
-//            } else {
-//                wordsCount = extras.getInt("Words Count");
-//                currentRating.setText("" + extras.getInt("Current Rating"));
-//                teamName.setText(extras.getString("Team Name"));
-//            }
-//        } else {
-//            wordsCount = (int) savedInstanceState.getSerializable("Words Count");
-//            currentRating.setText("" + (int) savedInstanceState.getSerializable("Current Rating"));
-//            teamName.setText((String) savedInstanceState.getSerializable("Team Name"));
-//        }
-//        Log.i("Words count", "" + wordsCount );
-
         wordsAdapter = new RoundWordsAdapter(roundViewModel.getWords(), this);
         wordsList.setAdapter(wordsAdapter);
-
     }
 
     public void returnToGame(View view) {

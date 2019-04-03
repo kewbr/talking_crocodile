@@ -271,7 +271,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         WordStatusModel word = new WordStatusModel();
         word.setGuessed(isPullUp);
         word.setRoundNumber(Long.valueOf(vm.roundCount));
-        word.setTeamName(vm.myTeam.teamName);     ////////CHECK !!!!!!!!!
         word.setWord(mTextView.getText().toString());
 
         if (isPullUp) {
