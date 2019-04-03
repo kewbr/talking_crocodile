@@ -8,17 +8,19 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:layout_gravity="center_vertical|start"
         android:fontFamily="monospace"
-        android:textSize="25sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
+        android:layout_width="73dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="0dp"
         android:background="@drawable/rounded_button"
-        android:padding="8dp" />
+        android:text="x"
+        android:textSize="18sp" />
 
 </FrameLayout>
