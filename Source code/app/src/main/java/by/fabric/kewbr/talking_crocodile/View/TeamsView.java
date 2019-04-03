@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 import by.fabric.kewbr.talking_crocodile.Adapter.TeamsAdapter;
 
+import by.fabric.kewbr.talking_crocodile.Model.PlayingTeamsModel;
 import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
 import by.fabric.kewbr.talking_crocodile.Model.SettingsModel;
 import by.fabric.kewbr.talking_crocodile.R;
@@ -61,25 +64,26 @@ public class TeamsView extends AppCompatActivity {
     }
 
     private void addTeam() {
-        TeamNamesModel team = new TeamNamesModel();
-        team.setId(Long.valueOf(123));
-        team.setTeamName("Имя команды");
-        teamsAdapter.addItem(team);
 
         teamsAdapter.addItem();
     }
 
     private void openSettingActivity() {
-        //сохранение реальных в базу тут должно быть. а вот как...
-        //что-то типа этого возможно
-        /*
-        ProgressModel progressModel = new ProgressModel();
-        for (int i = 0; i < teamsAdapter.getTeams().size(); i++){
-            progressModel.setTeamName(teamsAdapter.getTeams().get(i).getTeamName());
-            progressModel.setGuessedCount(Long.parseLong("0"));
+
+        List<PlayingTeamsModel> playingTeams = new ArrayList<>();
+
+        for (int index = 0; index < teamsAdapter.getTeams().size(); index++) {
+            PlayingTeamsModel team = new PlayingTeamsModel();
+            team.setId(Long.valueOf(index));
+            team.setTeamName(teamsAdapter.getTeams().get(index).getTeamName());
+
+            playingTeams.add(team);
         }
-        */
+
+        this.teamsViewModel.writeTeamsToDatabase(playingTeams);
+
         Intent intent = new Intent(this, SettingsView.class);
+
         startActivity(intent);
     }
 }
