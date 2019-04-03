@@ -14,6 +14,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 
+import by.fabric.kewbr.talking_crocodile.Adapter.StartRoundAdapter;
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
@@ -397,11 +400,21 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     }
 
     private void startRoundScreen(){
+
         setContentView(R.layout.start_round);
         TextView text = findViewById(R.id.roundName);
-        TextView rating = findViewById(R.id.rating);
         text.setText("Раунд " + vm.roundCount);
-        rating.setText("" + vm.myTeam.getRating());
+
+
+        RecyclerView startRoundRecyclerView = findViewById(R.id.start_round_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        startRoundRecyclerView.setLayoutManager(layoutManager);
+        startRoundRecyclerView.setHasFixedSize(true) ;
+
+        StartRoundAdapter adapter = new StartRoundAdapter(this.vm.getTeamsAndPoints());
+        startRoundRecyclerView.setAdapter(adapter);
+
+
         guessCount = 0;
         passCount = 0;
         timer = new CountDownTimer(5000, 1000)
@@ -415,7 +428,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                 startGame();
             }
         }.start();
-        Log.i("Im observer"," ");
     }
 
     private void openFinishScreen()

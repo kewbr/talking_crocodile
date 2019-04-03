@@ -22,7 +22,7 @@ public class RoundView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.round_view);
         Bundle extras = getIntent().getExtras();
-        this.roundViewModel = new RoundViewModel(extras.getInt("roundNumber")-1);    ////КАКОГО ТО ХУЯ ТУТ +1
+        this.roundViewModel = new RoundViewModel(extras.getInt("roundNumber")-1);
 
         wordsList = findViewById(R.id.wordsRecyclerView);
         TextView teamName = findViewById(R.id.comandNameTextView);

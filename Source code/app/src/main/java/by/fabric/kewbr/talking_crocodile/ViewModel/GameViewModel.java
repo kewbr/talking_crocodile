@@ -1,6 +1,7 @@
 package by.fabric.kewbr.talking_crocodile.ViewModel;
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import by.fabric.kewbr.talking_crocodile.Database.DatabaseConfigurator;
+import by.fabric.kewbr.talking_crocodile.Model.PlayingTeamsModel;
+import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
 import by.fabric.kewbr.talking_crocodile.Model.Round;
 import by.fabric.kewbr.talking_crocodile.Model.Team;
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
@@ -41,17 +44,24 @@ public class GameViewModel extends Observable {
     public GameViewModel(Context context){
 
         this.gameSettingsViewModel = new GameSettingsViewModel();
-        RealmResults<WordsModel> result = databaseInstance
+        RealmResults<WordsModel> wordsFromDatabase = databaseInstance
                 .where(WordsModel.class)
                 .equalTo("topic", "easy")
                 .findAll();
-        words.addAll(databaseInstance.copyFromRealm(result));
+        words.addAll(databaseInstance.copyFromRealm(wordsFromDatabase));
         words = mix(words);
 
         this.clearLastGameResult();
 
-        LinkedList<String> list = new LinkedList<String>();
-        list.add("Стандартная тима");
+        List<String> list = new ArrayList<>();
+
+        RealmResults<PlayingTeamsModel> playingTeams = databaseInstance
+                .where(PlayingTeamsModel.class)
+                .findAll();
+        for (int index = 0; index < playingTeams.size(); index++) {
+            list.add(playingTeams.get(index).getTeamName());
+        }
+
         round = new Round(list);
         myTeam = round.getCurrentTeam();
         Log.i("Settings"," " + gameSettingsViewModel.settings.getWordsForWinCount());
@@ -152,6 +162,18 @@ public class GameViewModel extends Observable {
         WordStatusModel result = databaseInstance.copyToRealm(model);
 
         databaseInstance.commitTransaction();
+    }
+
+    public List<ProgressModel> getTeamsAndPoints() {
+
+        List<ProgressModel> teamsAndPoints = new ArrayList<>();
+
+        RealmResults<ProgressModel> wordsFromDatabase = databaseInstance
+                .where(ProgressModel.class)
+                .findAll();
+
+        teamsAndPoints.addAll(databaseInstance.copyFromRealm(wordsFromDatabase));
+        return teamsAndPoints;
     }
 
 }
