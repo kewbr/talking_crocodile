@@ -218,6 +218,7 @@ public class GameViewModel extends Observable {
         databaseInstance.beginTransaction();
 
         this.round.getCurrentTeam().increaseRating();
+        //this.round.getCurrentTeam().setGuessedCount(round.getCurrentTeam().getGuessedCount() + 1);
 
         databaseInstance.commitTransaction();
     }

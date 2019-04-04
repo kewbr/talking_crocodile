@@ -70,6 +70,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     // don't over report.
     private boolean isOutReported = false;
     private CountDownTimer timer;
+    private boolean gameStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -379,17 +380,19 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onResume() {
         super.onResume();
         // Добавляем Runnable-объект
-//        if(!vm.roundStart)
-//        {
-//            setContentView(R.layout.activity_game_view);
-//            startGame();
-//            //startRoundScreen();
-//        }
+        if(!vm.roundStart && gameStart)
+        {
+            setContentView(R.layout.activity_game_view);
+            gameStart = false;
+            startGame();
+            //startRoundScreen();
+        }
         if(vm.roundTimer == 0 ) {
             guessCount = 0;
             passCount = 0;
             mHandler.removeCallbacks(timeUpdaterRunnable);
             if(vm.roundEnd) {
+                vm.round.restart();
                 vm.roundEnd = false;
                 startRoundScreen();
             }
@@ -397,6 +400,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             {
                 setContentView(R.layout.activity_game_view);
                 startGame();
+                //nextTeamScreen();
             }
             //startGame();
         }
@@ -417,6 +421,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mHandler.removeCallbacks(timeUpdaterRunnable);
         super.onStop();
         vm.stopGame();
+        //gameStart = false;
         //stop the timers
     }
 
@@ -438,6 +443,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         guessCount = 0;
         passCount = 0;
+        gameStart = false;
         timer = new CountDownTimer(5000, 1000)
         {
 
@@ -445,9 +451,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
 
             public void onFinish() {
-                //nextTeamScreen();
-                setContentView(R.layout.activity_game_view);
-                startGame();
+                gameStart = true;
+                nextTeamScreen();
+                //setContentView(R.layout.activity_game_view);
+                //startGame();
             }
         }.start();
     }
@@ -470,6 +477,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void openRoundEndScreen()
     {
+        //gameStart = false;
         Intent intent = new Intent(this, RoundView.class);
 //        intent.putExtra("Words Count", allCount);
 //        intent.putExtra("Team Name",vm.myTeam.teamName);
