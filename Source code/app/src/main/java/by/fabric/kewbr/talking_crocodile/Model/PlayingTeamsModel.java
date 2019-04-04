@@ -6,7 +6,8 @@ import io.realm.annotations.Required;
 public class PlayingTeamsModel extends RealmObject {
 
         @Required
-        private String teamName;
+        public String teamName;
+
         private long id;
 
 

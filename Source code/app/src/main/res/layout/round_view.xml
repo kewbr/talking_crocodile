@@ -42,7 +42,6 @@
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Имя команды"
                 android:textSize="20sp"
                 tools:layout_editor_absoluteX="30dp"
                 tools:layout_editor_absoluteY="78dp" />
@@ -52,7 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:text="@string/_3"
                 android:textSize="30sp"
                 tools:layout_editor_absoluteX="271dp"
                 tools:layout_editor_absoluteY="78dp" />

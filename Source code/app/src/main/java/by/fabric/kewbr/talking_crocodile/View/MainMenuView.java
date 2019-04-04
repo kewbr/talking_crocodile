@@ -54,7 +54,13 @@ public class MainMenuView extends AppCompatActivity {
         });
 
         Button continueButton = findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                ContinueGameActivity();
+            }
+        });
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(new View.OnClickListener() {
 
@@ -74,6 +80,12 @@ public class MainMenuView extends AppCompatActivity {
     private void openNewGameActivity() {
 
         Intent intent = new Intent(this, TeamsView.class);
+        startActivity(intent);
+    }
+
+    private void ContinueGameActivity() {
+
+        Intent intent = new Intent(this, GameView.class);
         startActivity(intent);
     }
 

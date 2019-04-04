@@ -53,9 +53,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private GameViewModel vm;
 
     AnimatorSet s = new AnimatorSet();
-    private CountDownTimer timer;
+    //private CountDownTimer timer;
 
-    private boolean flag;
+    //private boolean flag;
     private TextView timerTextView;
     private long timerTimeConstant;
     private long timerTime;
@@ -69,6 +69,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     // Tracks when we have reported that the image view is out of bounds so we
     // don't over report.
     private boolean isOutReported = false;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         super.onCreate(savedInstanceState);
 
         vm = new GameViewModel(this.getApplicationContext());
-        timerTimeConstant = vm.roundTimer;
         vm.addObserver(this);
+        timerTimeConstant = vm.roundTimer/ vm.round.getTeamCount();
+
         startRoundScreen();
 
     }
@@ -275,7 +277,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         word.setGuessed(isPullUp);
         word.setRoundNumber(Long.valueOf(vm.roundCount));
         word.setWord(mTextView.getText().toString());
-
+        word.setTeamName(vm.round.getCurrentTeam().teamName);
         if (isPullUp) {
             increaseGuessWordCount();
 
@@ -328,8 +330,8 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         passCount++;
         allCount++;
         //because we have only 1 team, so we don't need to implement a full method to work with teams
-        if(vm.myTeam.getRating()>0)
-        vm.myTeam.decreaseRating();
+        if(vm.round.getCurrentTeam().getRating()>0)
+        vm.decreaseCurrentTeamRating();
         passTextView.setText(" "+ passCount);
 
     }
@@ -338,11 +340,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         guessCount++;
         allCount++;
         //change this when we have more than 1 team to " vm.inspectTeamsRating()"
-        vm.myTeam.increaseRating();
+        vm.increaseCurrentTeamRating();
 
 
         guessTextView.setText(" "+ guessCount);
-        if(vm.myTeam.isWinner((int)vm.gameSettingsViewModel.settings.getWordsForWinCount())) {
+        if(vm.round.getCurrentTeam().isWinner((int)vm.gameSettingsViewModel.settings.getWordsForWinCount())) {
             vm.stopGame();
             vm.deleteObserver(this);
             finish();
@@ -358,7 +360,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     @Override
     public void update(Observable observable, Object o) {
         //onPause();
-        openRoundEndScreen();
+        if(vm.roundEnd)
+            openRoundEndScreen();
+        else
+            nextTeamScreen();
     }
 
 
@@ -366,6 +371,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onPause() {
         // Удаляем Runnable-объект для прекращения задачи
         mHandler.removeCallbacks(timeUpdaterRunnable);
+        //vm.stopGame();
         super.onPause();
     }
 
@@ -373,11 +379,25 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onResume() {
         super.onResume();
         // Добавляем Runnable-объект
-        if(vm.roundTimer == 0) {
+//        if(!vm.roundStart)
+//        {
+//            setContentView(R.layout.activity_game_view);
+//            startGame();
+//            //startRoundScreen();
+//        }
+        if(vm.roundTimer == 0 ) {
             guessCount = 0;
             passCount = 0;
             mHandler.removeCallbacks(timeUpdaterRunnable);
-            startRoundScreen();
+            if(vm.roundEnd) {
+                vm.roundEnd = false;
+                startRoundScreen();
+            }
+            else
+            {
+                setContentView(R.layout.activity_game_view);
+                startGame();
+            }
             //startGame();
         }
         else
@@ -387,6 +407,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             // Добавляем Runnable-объект timeUpdaterRunnable в очередь
             // сообщений, объект должен быть запущен после задержки в 100 мс
             mHandler.postDelayed(timeUpdaterRunnable, 100);
+            //vm.resume();
         }
 
     }
@@ -424,17 +445,26 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
 
             public void onFinish() {
+                //nextTeamScreen();
                 setContentView(R.layout.activity_game_view);
                 startGame();
             }
         }.start();
     }
 
+    private void nextTeamScreen(){
+
+        Intent intent = new Intent(this, StartRoundView.class);
+        intent.putExtra("Team Name",vm.round.getCurrentTeam().teamName);
+        intent.putExtra("Team Rating", vm.round.getCurrentTeam().getRating().intValue());
+        startActivity(intent);
+    }
+
     private void openFinishScreen()
     {
         Intent intent = new Intent(this, FinishView.class);
-        intent.putExtra("Team Name",vm.myTeam.teamName);
-        intent.putExtra("Team Rating", vm.myTeam.getRating());
+        intent.putExtra("Team Name",vm.round.getCurrentTeam().teamName);
+        intent.putExtra("Team Rating", vm.round.getCurrentTeam().getRating());
         startActivity(intent);
     }
 

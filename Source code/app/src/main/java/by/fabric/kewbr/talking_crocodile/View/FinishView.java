@@ -31,9 +31,9 @@ public class FinishView extends AppCompatActivity {
             vm.winnerTeamName = (String) savedInstanceState.getSerializable("Team Rating");
             vm.winnerRating = (int) savedInstanceState.getSerializable("Team Rating");
         }
-        TextView text1 = findViewById(R.id.teamName);
+        TextView text1 = findViewById(R.id.finish_teamName);
         text1.setText(vm.winnerTeamName);
-        TextView text2 = findViewById(R.id.rating);
+        TextView text2 = findViewById(R.id.finish_rating);
         text2.setText(""+vm.winnerRating);
 
     }

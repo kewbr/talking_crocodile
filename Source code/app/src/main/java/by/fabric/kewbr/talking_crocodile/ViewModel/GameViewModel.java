@@ -27,15 +27,16 @@ public class GameViewModel extends Observable {
 
     private Realm databaseInstance = Realm.getDefaultInstance();
 
-    private Round round;
+    public Round round;
     public int roundCount = 1;
     public long roundTimer;
-
+    public boolean roundEnd = false;
+    public boolean roundStart = false;
     public int counterTemp = 0;
 
     private CountDownTimer timer;
 
-    public Team myTeam;
+    public ProgressModel myTeam;
     public GameSettingsViewModel gameSettingsViewModel;
 
     private List<WordsModel> words = new ArrayList<>();
@@ -53,24 +54,26 @@ public class GameViewModel extends Observable {
 
         this.clearLastGameResult();
 
-        List<String> list = new ArrayList<>();
+        List<ProgressModel> list = new ArrayList<>();
 
-        RealmResults<PlayingTeamsModel> playingTeams = databaseInstance
-                .where(PlayingTeamsModel.class)
+        RealmResults<ProgressModel> playingTeams = databaseInstance
+                .where(ProgressModel.class)
                 .findAll();
         for (int index = 0; index < playingTeams.size(); index++) {
-            list.add(playingTeams.get(index).getTeamName());
+            list.add(playingTeams.get(index));
         }
 
         round = new Round(list);
         myTeam = round.getCurrentTeam();
+        //counterTemp = round.getTeamCount();
         Log.i("Settings"," " + gameSettingsViewModel.settings.getWordsForWinCount());
         Log.i("Settings"," " + gameSettingsViewModel.settings.getDurationOfRound());
         roundTimer = this.gameSettingsViewModel.settings.getDurationOfRound()*1000;
-        timer = new CountDownTimer(this.gameSettingsViewModel.settings.getDurationOfRound()*1000, 1000) {
+        timer = new CountDownTimer((this.gameSettingsViewModel.settings.getDurationOfRound()*1000)/round.getTeamCount(),  1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
+                //onChanged();
                 //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
             }
 
@@ -113,14 +116,21 @@ public class GameViewModel extends Observable {
             round.restart();
         //roundTimer = 5000;
         timer.start();
+        roundStart = true;
         Log.i("Done"," ");
     }
 
     public void onChanged(){
         //if(this.hasChanged())
         timer.cancel();
-        roundCount++;
+        setTeamsAndPoints(round.getAllTeams());
+        round.currentTeamIndex++;
         this.setChanged();
+        if(round.isFinished()) {
+            roundCount++;
+            roundEnd = true;
+            roundStart = false;
+        }
         this.notifyObservers();
     }
 
@@ -176,5 +186,48 @@ public class GameViewModel extends Observable {
         return teamsAndPoints;
     }
 
+    public void setTeamsAndPoints(List<ProgressModel> teamsAndPoints) {
+
+        databaseInstance.beginTransaction();
+
+        databaseInstance.copyToRealm(teamsAndPoints);
+
+        databaseInstance.commitTransaction();
+    }
+
+    public void resume() {
+        timer = new CountDownTimer(roundTimer,  1000) {
+
+            public void onTick(long millisUntilFinished) {
+                roundTimer = millisUntilFinished;
+                //onChanged();
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                roundTimer =0;
+                onChanged();
+                //startNewRound();
+                //mTextField.setText("done!");
+            }
+        };
+        timer.start();
+    }
+
+    public void increaseCurrentTeamRating() {
+        databaseInstance.beginTransaction();
+
+        this.round.getCurrentTeam().increaseRating();
+
+        databaseInstance.commitTransaction();
+    }
+
+    public void decreaseCurrentTeamRating() {
+        databaseInstance.beginTransaction();
+
+        this.round.getCurrentTeam().decreaseRating();
+
+        databaseInstance.commitTransaction();
+    }
 }
 

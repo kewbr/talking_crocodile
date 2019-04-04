@@ -73,6 +73,14 @@
             android:parentActivityName=".View.MainMenuView">
         </activity>
 
+        <activity
+            android:name=".View.StartRoundView"
+            android:screenOrientation="portrait"
+            android:label="Команда"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".View.GameView">
+        </activity>
+
     </application>
 
 </manifest>

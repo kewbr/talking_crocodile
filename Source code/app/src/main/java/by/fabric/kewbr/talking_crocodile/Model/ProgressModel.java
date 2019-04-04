@@ -8,7 +8,7 @@ public class ProgressModel extends RealmObject {
 
     @PrimaryKey
     @Required
-    private String teamName;
+    public String teamName;
     private Long guessedCount;
 
     public String getTeamName() {
@@ -30,5 +30,21 @@ public class ProgressModel extends RealmObject {
     public void setGuessedCount(Long guessedCount) {
 
         this.guessedCount = guessedCount;
+    }
+
+    public Long getRating(){
+        return guessedCount;
+    }
+
+    public void increaseRating(){
+        guessedCount++;
+    }
+
+    public void decreaseRating(){
+        guessedCount--;
+    }
+
+    public boolean isWinner(int winRating){
+        return guessedCount >= winRating;
     }
 }
