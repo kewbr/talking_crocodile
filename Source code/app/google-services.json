@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "642486772688",
+    "firebase_url": "https://talking-crocodile.firebaseio.com",
+    "project_id": "talking-crocodile",
+    "storage_bucket": "talking-crocodile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642486772688:android:b26f3683795f5adb",
+        "android_client_info": {
+          "package_name": "by.fabric.kewbr.talking_crocodile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyH25sziqHgzAXEYcsdFxTKVZm1guu-DA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642486772688-ve7nf3qmtu8lu0rm1h2cofqkvitdu4ud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

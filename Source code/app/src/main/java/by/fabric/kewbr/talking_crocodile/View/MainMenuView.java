@@ -10,6 +10,8 @@ import by.fabric.kewbr.talking_crocodile.R;
 //MARK: Subsystems
 import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import io.realm.Realm;
 
 //MARK: Helpers
@@ -18,8 +20,12 @@ import by.fabric.kewbr.talking_crocodile.Database.DatabaseConfigurator;
 
 public class MainMenuView extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         super.onCreate(savedInstanceState);
 
