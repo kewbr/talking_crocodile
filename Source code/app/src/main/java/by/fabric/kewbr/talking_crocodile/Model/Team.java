@@ -11,6 +11,10 @@ public class Team {
         rating = 0;
         teamName = name;
     }
+    public Team(String name, Long rate){
+        rating = rate.intValue();
+        teamName = name;
+    }
     public int getRating(){
         return rating;
     }

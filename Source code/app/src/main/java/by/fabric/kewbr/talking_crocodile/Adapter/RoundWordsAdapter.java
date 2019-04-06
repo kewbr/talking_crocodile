@@ -1,24 +1,32 @@
 package by.fabric.kewbr.talking_crocodile.Adapter;
 
 import android.content.Context;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 
 public class RoundWordsAdapter extends
         RecyclerView.Adapter<RoundWordsAdapter.RoundWordsViewHolder> {
 
     private int countOfWordsItems;
+    private List<WordStatusModel> words;
 
-    public RoundWordsAdapter (int countOfWordsItems) {
+    public RoundWordsAdapter (List<WordStatusModel> words, Context context) {
 
-        this.countOfWordsItems = countOfWordsItems;
+        this.countOfWordsItems = words.size();
+        this.words = new ArrayList<>(words);
     }
 
     @NonNull
@@ -36,7 +44,7 @@ public class RoundWordsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull RoundWordsViewHolder roundWordsViewHolder, int i) {
         //MARK – Here update element of recyclerView
-        roundWordsViewHolder.bind("Привет скрам-мастер!", true);
+        roundWordsViewHolder.bind(this.words.get(i).getWord(), this.words.get(i).getGuessed());
     }
 
     @Override
@@ -48,15 +56,19 @@ public class RoundWordsAdapter extends
 
         TextView wordTextView;
         CheckBox wordCheckBox;
-
+        WordStatusModel word;
         public RoundWordsViewHolder(View itemView) {
             super(itemView);
 
             wordTextView = itemView.findViewById(R.id.word);
             wordCheckBox = itemView.findViewById(R.id.check_box_word);
+
         }
 
         void bind(String currentWord, boolean checked) {
+            word = new WordStatusModel();
+            word.setWord(currentWord);
+            word.setGuessed(checked);
             wordTextView.setText(currentWord);
             wordCheckBox.setChecked(checked);
         }
