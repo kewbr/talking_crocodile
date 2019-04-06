@@ -1,8 +1,5 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import android.content.Intent;
 
 import android.os.CountDownTimer;
@@ -17,6 +14,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,18 +24,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
-import by.fabric.kewbr.talking_crocodile.Database.MainDBHelper;
+import by.fabric.kewbr.talking_crocodile.Adapter.StartRoundAdapter;
+import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.GameViewModel;
 
 public class GameView extends AppCompatActivity  implements View.OnTouchListener, Observer {
 
-    //private GestureDetector gestureDetector;
     int windowwidth; // Actually the width of the RelativeLayout.
     int windowheight; // Actually the height of the RelativeLayout.
     private ImageView mImageView;
@@ -45,26 +42,23 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
     private boolean isEnded;
-    private String[] array = {"Кошка", "Собака", "Часы", "Компьютер", "Лес"};
     private String[] dataFromDB;
 
     private TextView guessTextView;
     private TextView passTextView;
     private int passCount;
     private int guessCount;
+    public int allCount;
 
     private GameViewModel vm;
 
-    private MainDBHelper dbHelper;
-    private SQLiteDatabase mDb;
-    Cursor cursor;
-
     AnimatorSet s = new AnimatorSet();
-    private CountDownTimer timer;
+    //private CountDownTimer timer;
 
-    private boolean flag;
+    //private boolean flag;
     private TextView timerTextView;
-    private long timerTime = 10000;
+    private long timerTimeConstant;
+    private long timerTime;
     private long previosTime;
 
     private Handler mHandler = new Handler();
@@ -75,54 +69,24 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     // Tracks when we have reported that the image view is out of bounds so we
     // don't over report.
     private boolean isOutReported = false;
+    private CountDownTimer timer;
+    private boolean gameStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        dbHelper = new MainDBHelper(this);
-        try {
-            dbHelper.updateDataBase();
-        } catch (IOException ex) {
-            Log.i("err", ex.getLocalizedMessage());
-        }
-        mDb = dbHelper.getWritableDatabase();
+
         vm = new GameViewModel(this.getApplicationContext());
         vm.addObserver(this);
-        setContentView(R.layout.start_round);
-        TextView text = findViewById(R.id.roundName);
-        text.setText("Раунд " + vm.roundCount);
+        timerTimeConstant = vm.roundTimer/ vm.round.getTeamCount();
 
-
-        timer = new CountDownTimer(5000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                setContentView(R.layout.activity_game_view);
-                startGame();
-            }
-        }.start();
-        String topic = "easy";
-        cursor = mDb.rawQuery("SELECT * FROM words", null);
-        cursor.moveToFirst();
-        Log.i("DB", cursor.getString(1) );
-
-
+        startRoundScreen();
 
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //stop the timers
-    }
 
     private void startGame(){
-        timerTime = 10000;
         vm.startNewRound();
         // We are interested when the image view leaves its parent RelativeLayout
         // container and not the screen, so the following code is not needed.
@@ -138,10 +102,11 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         timerTextView = (TextView) mRrootLayout.findViewById(R.id.timerTextView);
 
+        timerTime = timerTimeConstant;
         timeUpdaterRunnable = new Runnable() {
             public void run() {
                 // вычисляем время
-                timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);;
+                timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);
                 previosTime = SystemClock.uptimeMillis();
                 int second = (int) (timerTime / 1000);
                 int min = second / 60;
@@ -158,8 +123,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         };
 
-        mTextView.setText(cursor.getString(1));
-        cursor.moveToNext();
+        mTextView.setText(vm.getCurrentWord().getWord());
                 //array[new Random().nextInt(100) % 5]);
         // These these following 2 lines that address layoutparams set the width
         // and height of the ImageView to 150 pixels and, as a side effect, clear any
@@ -309,13 +273,21 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         });
         animation = ValueAnimator.ofInt(lp.topMargin, (windowheight - mImageView.getHeight()) / 2);
+
+        WordStatusModel word = new WordStatusModel();
+        word.setGuessed(isPullUp);
+        word.setRoundNumber(Long.valueOf(vm.roundCount));
+        word.setWord(mTextView.getText().toString());
+        word.setTeamName(vm.round.getCurrentTeam().teamName);
         if (isPullUp) {
             increaseGuessWordCount();
-
 
         } else {
             increasePassWordCount();
         }
+
+        vm.writeToDatabase(word);
+
         animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator updatedAnimation) {
@@ -332,9 +304,9 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                mTextView.setText(cursor.getString(1));
-                cursor.moveToNext();
-            }
+                mTextView.setText(vm.getCurrentWord().getWord());
+
+        }
 
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -357,20 +329,25 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void increasePassWordCount() {
         passCount++;
+        allCount++;
         //because we have only 1 team, so we don't need to implement a full method to work with teams
-        if(vm.myTeam.getRating()>0)
-        vm.myTeam.decreaseRating();
+        if(vm.round.getCurrentTeam().getRating()>0)
+        vm.decreaseCurrentTeamRating();
         passTextView.setText(" "+ passCount);
 
     }
 
     private void increaseGuessWordCount() {
         guessCount++;
-        //change this when we have more han 1 team to " vm.inspectTeamsRating()"
-        vm.myTeam.increaseRating();
+        allCount++;
+        //change this when we have more than 1 team to " vm.inspectTeamsRating()"
+        vm.increaseCurrentTeamRating();
+
+
         guessTextView.setText(" "+ guessCount);
-        if(vm.myTeam.isWinner(vm.gameSettings.wordCount)) {
+        if(vm.round.getCurrentTeam().isWinner((int)vm.gameSettingsViewModel.settings.getWordsForWinCount())) {
             vm.stopGame();
+            vm.deleteObserver(this);
             finish();
             openFinishScreen();
         }
@@ -381,33 +358,13 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mTextView.setTextColor(Color.argb(value, 0, 0, 0));
     }
 
-//    private static void closeWindow(){}
-//    public static void showDialogAndClose(String s){
-//
-//        closeWindow();
-//    }
-
     @Override
     public void update(Observable observable, Object o) {
-        setContentView(R.layout.start_round);
-        TextView text = findViewById(R.id.roundName);
-        TextView rating = findViewById(R.id.rating);
-        text.setText("Раунд " + vm.roundCount);
-        rating.setText("" + vm.myTeam.getRating());
-        guessCount = 0;
-        passCount = 0;
-        timer = new CountDownTimer(5000, 1000)
-        {
-
-            public void onTick(long millisUntilFinished) {
-            }
-
-            public void onFinish() {
-                setContentView(R.layout.activity_game_view);
-                startGame();
-            }
-        }.start();
-        Log.i("Im observer"," ");
+        //onPause();
+        if(vm.roundEnd)
+            openRoundEndScreen();
+        else
+            nextTeamScreen();
     }
 
 
@@ -415,6 +372,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onPause() {
         // Удаляем Runnable-объект для прекращения задачи
         mHandler.removeCallbacks(timeUpdaterRunnable);
+        //vm.stopGame();
         super.onPause();
     }
 
@@ -422,16 +380,109 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onResume() {
         super.onResume();
         // Добавляем Runnable-объект
-        mHandler.postDelayed(timeUpdaterRunnable, 1000);
+        if(!vm.roundStart && gameStart)
+        {
+            setContentView(R.layout.activity_game_view);
+            gameStart = false;
+            startGame();
+            //startRoundScreen();
+        }
+        if(vm.roundTimer == 0 ) {
+            guessCount = 0;
+            passCount = 0;
+            mHandler.removeCallbacks(timeUpdaterRunnable);
+            if(vm.roundEnd) {
+                vm.round.restart();
+                vm.roundEnd = false;
+                startRoundScreen();
+            }
+            else
+            {
+                setContentView(R.layout.activity_game_view);
+                startGame();
+                //nextTeamScreen();
+            }
+            //startGame();
+        }
+        else
+        {
+            //previosTime = SystemClock.uptimeMillis();
+            //timerTime = timerTimeConstant;
+            // Добавляем Runnable-объект timeUpdaterRunnable в очередь
+            // сообщений, объект должен быть запущен после задержки в 100 мс
+            mHandler.postDelayed(timeUpdaterRunnable, 100);
+            //vm.resume();
+        }
+
     }
 
+    @Override
+    protected void onStop() {
+        mHandler.removeCallbacks(timeUpdaterRunnable);
+        super.onStop();
+        vm.stopGame();
+        //gameStart = false;
+        //stop the timers
+    }
+
+    private void startRoundScreen(){
+
+        setContentView(R.layout.start_round);
+        TextView text = findViewById(R.id.roundName);
+        text.setText("Раунд " + vm.roundCount);
+
+
+        RecyclerView startRoundRecyclerView = findViewById(R.id.start_round_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        startRoundRecyclerView.setLayoutManager(layoutManager);
+        startRoundRecyclerView.setHasFixedSize(true) ;
+
+        StartRoundAdapter adapter = new StartRoundAdapter(this.vm.getTeamsAndPoints());
+        startRoundRecyclerView.setAdapter(adapter);
+
+
+        guessCount = 0;
+        passCount = 0;
+        gameStart = false;
+        timer = new CountDownTimer(5000, 1000)
+        {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                gameStart = true;
+                nextTeamScreen();
+                //setContentView(R.layout.activity_game_view);
+                //startGame();
+            }
+        }.start();
+    }
+
+    private void nextTeamScreen(){
+
+        Intent intent = new Intent(this, StartRoundView.class);
+        intent.putExtra("Team Name",vm.round.getCurrentTeam().teamName);
+        intent.putExtra("Team Rating", vm.round.getCurrentTeam().getRating().intValue());
+        startActivity(intent);
+    }
 
     private void openFinishScreen()
     {
-        //stopGame();
         Intent intent = new Intent(this, FinishView.class);
-        intent.putExtra("Team Name",vm.myTeam.teamName);
-        intent.putExtra("Team Rating", vm.myTeam.getRating());
+        intent.putExtra("Team Name",vm.round.getCurrentTeam().teamName);
+        intent.putExtra("Team Rating", vm.round.getCurrentTeam().getRating());
+        startActivity(intent);
+    }
+
+    private void openRoundEndScreen()
+    {
+        //gameStart = false;
+        Intent intent = new Intent(this, RoundView.class);
+//        intent.putExtra("Words Count", allCount);
+//        intent.putExtra("Team Name",vm.myTeam.teamName);
+//        intent.putExtra("Current Rating", guessCount-passCount);
+        intent.putExtra("roundNumber", vm.roundCount);
         startActivity(intent);
     }
 }

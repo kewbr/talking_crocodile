@@ -32,28 +32,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/gameName"
-            android:layout_width="match_parent"
-            android:layout_height="141dp"
-            android:autoSizeMaxTextSize="36sp"
-            android:autoSizeMinTextSize="24sp"
-            android:autoSizeTextType="uniform"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:paddingTop="70dp"
-            android:shadowColor="@color/colorBack"
-            android:shadowDx="5"
-            android:shadowDy="5"
-            android:shadowRadius="20"
-            android:text="Победа!"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
@@ -75,26 +53,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:autoSizeMaxTextSize="24sp"
-                android:autoSizeMinTextSize="18sp"
-                android:autoSizeTextType="uniform"
-                android:baselineAligned="false"
-                android:shadowColor="@color/colorBack"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="20"
-                android:text="Выйграла команда: "
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/finish_teamName"
+                android:id="@+id/teamName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -136,7 +95,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/finish_rating"
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -157,7 +116,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/goToMenu"
+        android:id="@+id/returnToGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -166,7 +125,6 @@
         android:text="OK"
         android:textColor="@color/colorAccent"
         android:textSize="25sp"
-        android:onClick="goToMenu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/backgroundPattern"
         app:layout_constraintStart_toEndOf="@+id/backgroundPattern"
