@@ -15,8 +15,6 @@ import java.util.List;
 import by.fabric.kewbr.talking_crocodile.Adapter.TeamsAdapter;
 
 import by.fabric.kewbr.talking_crocodile.Model.PlayingTeamsModel;
-import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
-import by.fabric.kewbr.talking_crocodile.Model.SettingsModel;
 import by.fabric.kewbr.talking_crocodile.R;
 import by.fabric.kewbr.talking_crocodile.ViewModel.TeamsViewModel;
 

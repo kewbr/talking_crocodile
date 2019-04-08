@@ -7,10 +7,9 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 
-import by.fabric.kewbr.talking_crocodile.Model.Team;
+import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class TeamModelTest {
@@ -21,27 +20,27 @@ public class TeamModelTest {
 
     @Test
     public void ratingIncreasetest() {
-        Team team = new Team();
-        team.increaseRating();
+        ProgressModel progressModel = new ProgressModel();
+        progressModel.increaseRating();
         collector.checkThat(
                 "function increaseRating dont return correct result " ,
-                team.getRating(),
+                progressModel.getRating().intValue(),
                 is(1)
         );
     }
 
     public void ratingDecreasetest() {
-        Team team = new Team();
+        ProgressModel team = new ProgressModel();
         team.decreaseRating();
         collector.checkThat(
                 "function decreaseRating dont return correct result " ,
-                team.getRating(),
+                team.getRating().intValue(),
                 is(-1)
         );
     }
 
     public void isWinnerTest() {
-        Team team = new Team();
+        ProgressModel team = new ProgressModel();
         team.increaseRating();
         collector.checkThat(
                 "function isWinner dont return correct result " ,

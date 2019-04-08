@@ -16,7 +16,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +41,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private TextView mTextView;
     private int _yDelta;
     RelativeLayout.LayoutParams lp, lpInit;
-    private boolean isEnded;
-    private String[] dataFromDB;
+
 
     private TextView guessTextView;
     private TextView passTextView;
@@ -53,9 +52,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     private GameViewModel vm;
 
     AnimatorSet s = new AnimatorSet();
-    //private CountDownTimer timer;
 
-    //private boolean flag;
     private TextView timerTextView;
     private long timerTimeConstant;
     private long timerTime;
@@ -66,8 +63,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     // Описание Runnable-объекта
     private Runnable timeUpdaterRunnable;
 
-    // Tracks when we have reported that the image view is out of bounds so we
-    // don't over report.
     private boolean isOutReported = false;
     private CountDownTimer timer;
     private boolean gameStart = false;
@@ -105,15 +100,12 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         timerTime = timerTimeConstant;
         timeUpdaterRunnable = new Runnable() {
             public void run() {
-                // вычисляем время
                 timerTime = timerTime - (SystemClock.uptimeMillis() - previosTime);
                 previosTime = SystemClock.uptimeMillis();
                 int second = (int) (timerTime / 1000);
                 int min = second / 60;
                 second = second % 60;
-                // выводим время
                 timerTextView.setText("" + String.format("%02d", min) + ":" + String.format("%02d", second));
-                // повторяем через каждые 200 миллисекунд
                 if (timerTime < 1000) {
                     onPause();
                      mHandler.removeCallbacks(timeUpdaterRunnable);
@@ -147,12 +139,10 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
                 windowheight = mRrootLayout.getHeight();
             }
         });
-        int top = windowheight / 2;
-        isEnded = false;
+       // int top = windowheight / 2;
+      //  isEnded = false;
 
         previosTime = SystemClock.uptimeMillis();
-        // Добавляем Runnable-объект timeUpdaterRunnable в очередь
-        // сообщений, объект должен быть запущен после задержки в 100 мс
         mHandler.postDelayed(timeUpdaterRunnable, 100);
 
     }
@@ -216,15 +206,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         return true;
     }
 
-//    private boolean isOut(View view) {
-//
-//        if (isEnded) {
-//            isEnded = false;
-//            return isEnded;
-//        }
-//        float delta = 0.1f * windowheight;
-//        return (view.getTop() < delta || view.getTop() > (windowheight - delta - view.getHeight()));
-//    }
 
     private void returnAnimation(boolean isPullUp, int opacity) {
         ValueAnimator animation;
@@ -238,7 +219,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             }
         });
         animation = ValueAnimator.ofInt(lp.topMargin, (windowheight - mImageView.getHeight()) / 2);
-        //if (isPullUp) {
 
             animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -255,7 +235,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         animation.setDuration(1000);
         obj.setDuration(1000);
-        //AnimatorSet s = new AnimatorSet();
         s.playTogether(animation, obj);
         s.start();
     }
@@ -360,7 +339,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     @Override
     public void update(Observable observable, Object o) {
-        //onPause();
         if(vm.roundEnd)
             openRoundEndScreen();
         else
@@ -372,7 +350,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     protected void onPause() {
         // Удаляем Runnable-объект для прекращения задачи
         mHandler.removeCallbacks(timeUpdaterRunnable);
-        //vm.stopGame();
         super.onPause();
     }
 
@@ -385,7 +362,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             setContentView(R.layout.activity_game_view);
             gameStart = false;
             startGame();
-            //startRoundScreen();
         }
         if(vm.roundTimer == 0 ) {
             guessCount = 0;
@@ -400,18 +376,12 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             {
                 setContentView(R.layout.activity_game_view);
                 startGame();
-                //nextTeamScreen();
             }
-            //startGame();
         }
         else
         {
-            //previosTime = SystemClock.uptimeMillis();
-            //timerTime = timerTimeConstant;
-            // Добавляем Runnable-объект timeUpdaterRunnable в очередь
-            // сообщений, объект должен быть запущен после задержки в 100 мс
             mHandler.postDelayed(timeUpdaterRunnable, 100);
-            //vm.resume();
+
         }
 
     }
@@ -421,8 +391,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mHandler.removeCallbacks(timeUpdaterRunnable);
         super.onStop();
         vm.stopGame();
-        //gameStart = false;
-        //stop the timers
+
     }
 
     private void startRoundScreen(){
@@ -453,8 +422,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
             public void onFinish() {
                 gameStart = true;
                 nextTeamScreen();
-                //setContentView(R.layout.activity_game_view);
-                //startGame();
             }
         }.start();
     }
@@ -477,11 +444,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
     private void openRoundEndScreen()
     {
-        //gameStart = false;
         Intent intent = new Intent(this, RoundView.class);
-//        intent.putExtra("Words Count", allCount);
-//        intent.putExtra("Team Name",vm.myTeam.teamName);
-//        intent.putExtra("Current Rating", guessCount-passCount);
         intent.putExtra("roundNumber", vm.roundCount);
         startActivity(intent);
     }

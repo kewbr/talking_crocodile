@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.Random;
 import by.fabric.kewbr.talking_crocodile.Model.TeamNamesModel;
 import by.fabric.kewbr.talking_crocodile.R;
 
-import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 
 public class TeamsAdapter extends
         RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>  {

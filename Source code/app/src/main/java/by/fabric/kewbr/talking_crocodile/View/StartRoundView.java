@@ -22,8 +22,6 @@ public class StartRoundView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_team);
-//        intent.putExtra("Team Name",vm.myTeam.teamName);
-//        intent.putExtra("Team Rating", vm.myTeam.getRating());
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {

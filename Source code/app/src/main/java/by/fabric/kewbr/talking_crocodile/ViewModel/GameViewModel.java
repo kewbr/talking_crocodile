@@ -1,25 +1,18 @@
 package by.fabric.kewbr.talking_crocodile.ViewModel;
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import by.fabric.kewbr.talking_crocodile.Database.DatabaseConfigurator;
-import by.fabric.kewbr.talking_crocodile.Model.PlayingTeamsModel;
 import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
 import by.fabric.kewbr.talking_crocodile.Model.Round;
-import by.fabric.kewbr.talking_crocodile.Model.Team;
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.Model.WordsModel;
-import by.fabric.kewbr.talking_crocodile.View.GameView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -136,8 +129,6 @@ public class GameViewModel extends Observable {
 
     public void stopGame(){
         timer.cancel();
-        //roundCount = 0;
-        //GameView.showDialogAndClose("Something");
     }
 
 
@@ -200,15 +191,11 @@ public class GameViewModel extends Observable {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
-                //onChanged();
-                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 roundTimer =0;
                 onChanged();
-                //startNewRound();
-                //mTextField.setText("done!");
             }
         };
         timer.start();
@@ -216,10 +203,7 @@ public class GameViewModel extends Observable {
 
     public void increaseCurrentTeamRating() {
         databaseInstance.beginTransaction();
-
         this.round.getCurrentTeam().increaseRating();
-        //this.round.getCurrentTeam().setGuessedCount(round.getCurrentTeam().getGuessedCount() + 1);
-
         databaseInstance.commitTransaction();
     }
 

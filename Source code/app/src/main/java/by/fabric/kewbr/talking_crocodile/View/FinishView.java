@@ -1,6 +1,5 @@
 package by.fabric.kewbr.talking_crocodile.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,8 +16,6 @@ public class FinishView extends AppCompatActivity {
         vm = new FinishViewModel();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish);
-//        intent.putExtra("Team Name",vm.myTeam.teamName);
-//        intent.putExtra("Team Rating", vm.myTeam.getRating());
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {

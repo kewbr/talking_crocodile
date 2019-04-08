@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import by.fabric.kewbr.talking_crocodile.Adapter.RoundWordsAdapter;
 import by.fabric.kewbr.talking_crocodile.R;
@@ -25,10 +24,6 @@ public class RoundView extends AppCompatActivity {
         this.roundViewModel = new RoundViewModel(extras.getInt("roundNumber")-1);
 
         wordsList = findViewById(R.id.wordsRecyclerView);
-        TextView teamName = findViewById(R.id.comandNameTextView);
-        TextView currentRating = findViewById(R.id.currentCountTextView);
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         wordsList.setLayoutManager(layoutManager);
         wordsList.setHasFixedSize(true) ;
