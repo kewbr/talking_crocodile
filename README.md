@@ -1,6 +1,9 @@
 # Болтливый крокодил
 Язык реализации: Java<br>
-Используемые технологии: Realm<br>
+Используемые технологии: 
+![android.jpg](https://www.dropbox.com/s/ooxl6hhncf8fubu/android.jpg?dl=0&raw=1)![androidStudio.jpeg](https://www.dropbox.com/s/mhdjhmxdvepv6sx/androidStudio.jpeg?dl=0&raw=1)![fabric.png](https://www.dropbox.com/s/dgb8o7qrteo902p/fabric.png?dl=0&raw=1)
+![firebase.png](https://www.dropbox.com/s/n6b0sy7gokr1ntf/firebase.png?dl=0&raw=1)![realm.jpg](https://www.dropbox.com/s/z9jli0atnydvc0g/realm.jpg?dl=0&raw=1)![java.jpg](https://www.dropbox.com/s/yrss7ymaslch18t/java.jpg?dl=0&raw=1)
+
 Среда разработки: Android Studio 3.3<br>
 Требования к системе: Android 6.0+<br>
 
