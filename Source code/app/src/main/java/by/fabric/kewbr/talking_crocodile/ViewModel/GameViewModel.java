@@ -40,7 +40,7 @@ public class GameViewModel extends Observable {
         this.gameSettingsViewModel = new GameSettingsViewModel();
         RealmResults<WordsModel> wordsFromDatabase = databaseInstance
                 .where(WordsModel.class)
-                .equalTo("topic", "easy")
+                .equalTo("topic", gameSettingsViewModel.settings.getTopic())
                 .findAll();
         words.addAll(databaseInstance.copyFromRealm(wordsFromDatabase));
         words = mix(words);

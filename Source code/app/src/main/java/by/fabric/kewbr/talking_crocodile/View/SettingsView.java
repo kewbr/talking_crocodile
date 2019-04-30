@@ -82,6 +82,7 @@ public class SettingsView extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, complexityForUser);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
         //MARK – Setup listeners for seekBar
 
         wordCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
