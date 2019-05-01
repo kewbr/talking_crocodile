@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
 import by.fabric.kewbr.talking_crocodile.R;
+import by.fabric.kewbr.talking_crocodile.ViewModel.RoundViewModel;
 
 public class RoundWordsAdapter extends
         RecyclerView.Adapter<RoundWordsAdapter.RoundWordsViewHolder> {
@@ -26,7 +28,7 @@ public class RoundWordsAdapter extends
     public RoundWordsAdapter (List<WordStatusModel> words, Context context) {
 
         this.countOfWordsItems = words.size();
-        this.words = new ArrayList<>(words);
+        this.words = words;
     }
 
     @NonNull
@@ -44,7 +46,7 @@ public class RoundWordsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull RoundWordsViewHolder roundWordsViewHolder, int i) {
         //MARK – Here update element of recyclerView
-        roundWordsViewHolder.bind(this.words.get(i).getWord(), this.words.get(i).getGuessed());
+        roundWordsViewHolder.bind(this.words.get(i).getWord(), this.words.get(i).getGuessed(), i);
     }
 
     @Override
@@ -57,15 +59,28 @@ public class RoundWordsAdapter extends
         TextView wordTextView;
         CheckBox wordCheckBox;
         WordStatusModel word;
+        private int position;
+
         public RoundWordsViewHolder(View itemView) {
             super(itemView);
 
             wordTextView = itemView.findViewById(R.id.word);
             wordCheckBox = itemView.findViewById(R.id.check_box_word);
+            wordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                {
+                    words.get(position).setGuessed(isChecked);
+                }
+            });
 
         }
 
-        void bind(String currentWord, boolean checked) {
+        void bind(String currentWord, boolean checked, int position) {
+
+            this.position = position;
+
             word = new WordStatusModel();
             word.setWord(currentWord);
             word.setGuessed(checked);

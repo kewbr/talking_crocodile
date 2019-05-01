@@ -34,9 +34,14 @@ public class RoundView extends AppCompatActivity {
 
     public void returnToGame(View view) {
         switch (view.getId()) {
-            case R.id.continueButton:
+            case R.id.continueButton: {
+
+                this.roundViewModel.writeBack();
+
                 finish();
+            }
                 break;
+
             default:
                 break;
         }

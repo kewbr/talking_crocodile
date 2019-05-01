@@ -28,6 +28,16 @@ public class RoundViewModel {
         return this.words;
     }
 
+    public void writeBack() {
+
+        databaseInstance.beginTransaction();
+
+        databaseInstance.copyToRealm(words);
+
+        databaseInstance.commitTransaction();
+
+    }
+
     public void clearRoundResult(final int roundNumber) {
         databaseInstance.executeTransaction(new Realm.Transaction() {
             @Override
