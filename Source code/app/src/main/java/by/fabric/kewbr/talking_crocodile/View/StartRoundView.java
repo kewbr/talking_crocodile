@@ -57,4 +57,9 @@ public class StartRoundView extends AppCompatActivity {
 //                break;
 //        }
 //    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }

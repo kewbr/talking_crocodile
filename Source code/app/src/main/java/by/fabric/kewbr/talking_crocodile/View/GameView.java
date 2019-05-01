@@ -351,6 +351,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         // Удаляем Runnable-объект для прекращения задачи
         mHandler.removeCallbacks(timeUpdaterRunnable);
         super.onPause();
+        //vm.stopGame();
     }
 
     @Override
@@ -391,7 +392,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         mHandler.removeCallbacks(timeUpdaterRunnable);
         super.onStop();
         vm.stopGame();
-
+        timer.cancel();
     }
 
     private void startRoundScreen(){

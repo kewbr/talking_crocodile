@@ -209,9 +209,7 @@ public class GameViewModel extends Observable {
 
     public void decreaseCurrentTeamRating() {
         databaseInstance.beginTransaction();
-
         this.round.getCurrentTeam().decreaseRating();
-
         databaseInstance.commitTransaction();
     }
 }
