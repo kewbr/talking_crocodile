@@ -77,7 +77,6 @@ public class RoundViewModel {
 
         }
 
-
         for (int i = 0; i < teamsPlaying.size(); i++) {
             Long oldGuessedCount = teamsPlaying.get(i).getGuessedCount();
             oldGuessedCount += delta[i];
@@ -87,10 +86,11 @@ public class RoundViewModel {
 //ахтунг чек
 
         databaseInstance.beginTransaction();
-        databaseInstance.copyToRealm(teamsPlaying); //ахтунг чек
+               databaseInstance.copyToRealmOrUpdate(teamsPlaying);
         databaseInstance.commitTransaction();
 
         databaseInstance.beginTransaction();
+
         databaseInstance.copyToRealm(words);
         databaseInstance.commitTransaction();
     }
