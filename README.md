@@ -19,12 +19,14 @@
 1.1.1 [Product backlog](Documents/Requirements/Product_backlog.pdf)<br>
 1.1.2 [Sprint 1 backlog](Documents/Requirements/Sprint_1_backlog.pdf)<br>
 1.1.3 [Sprint 2 backlog](Documents/Requirements/Sprint_2_backlog.pdf)<br>
+1.1.4 [Sprint 3 backlog](https://github.com/kewbr/talking_crocodile/blob/master/Documents/Requirements/Sprint%203%20backlog.pdf)<br>
+1.1.5 [Sprint 4 backlog](https://github.com/kewbr/talking_crocodile/blob/master/Documents/Requirements/Sprint%204%20backlog.pdf)<br>
 1.2 [Диаграммы](Documents/Diagrams)<br>
 1.3 [Глоссарий](Documents/Glossary/Glossary.md)<br>
 2. [Код](Source%20code/)<br>
 3. [Тестирование]()<br>
-3.1 [Тест-план]()<br>
-3.2 [Результаты тестирования]()<br>
+3.1 [Тест-план](https://github.com/kewbr/talking_crocodile/blob/master/Testing/TestPlan.md)<br>
+3.2 [Результаты тестирования](https://github.com/kewbr/talking_crocodile/blob/master/Testing/TestResults.md)<br>
 4. [Лицензия](LICENSE)<br>
 
 ## Руководство для сообщения об ошибках
