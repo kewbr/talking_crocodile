@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"+
+                android:textStyle="bold"
                 android:shadowColor="@color/colorAccent"
                 android:shadowDx="5"
                 android:shadowDy="5"

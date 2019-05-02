@@ -116,7 +116,6 @@ tools:context="by.fabric.kewbr.talking_crocodile.View.GameView" >
         android:layout_alignParentBottom="true"
         android:layout_marginStart="36dp"
         android:layout_marginBottom="140dp"
-        android:text="TextView"
         android:textSize="20sp" />
 
 

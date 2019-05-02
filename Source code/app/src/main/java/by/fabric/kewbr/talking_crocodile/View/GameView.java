@@ -310,7 +310,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
         passCount++;
         allCount++;
         //because we have only 1 team, so we don't need to implement a full method to work with teams
-        if(vm.round.getCurrentTeam().getRating()>0)
+        //if(vm.round.getCurrentTeam().getRating()>0)
         vm.decreaseCurrentTeamRating();
         passTextView.setText(" "+ passCount);
 
