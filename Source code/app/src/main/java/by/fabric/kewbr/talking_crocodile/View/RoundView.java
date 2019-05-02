@@ -37,7 +37,6 @@ public class RoundView extends AppCompatActivity {
             case R.id.continueButton: {
 
                 this.roundViewModel.writeBack();
-
                 finish();
             }
                 break;

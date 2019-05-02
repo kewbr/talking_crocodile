@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.fabric.kewbr.talking_crocodile.Model.WordStatusModel;
+import by.fabric.kewbr.talking_crocodile.Model.ProgressModel;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -27,19 +29,22 @@ public class RoundViewModel {
         words.addAll(databaseInstance.copyFromRealm(result));
         copyOfWords.addAll(databaseInstance.copyFromRealm(result));
 
-        RealmResults<ProgressModel> teams = databaseInstace
+        RealmResults<ProgressModel> teams = databaseInstance
                 .where(ProgressModel.class)
                 .findAll();
         teamsPlaying.addAll(databaseInstance.copyFromRealm(teams));
+    }
+
+    public List<ProgressModel> getTeams() {
+        return this.teamsPlaying;
     }
 
     public List<WordStatusModel> getWords() {
         return this.words;
     }
 
-    public void writeBack() {
 
-        //ахтунг чек
+    public void writeBack() {
 
         int[] delta = new int[this.teamsPlaying.size()];
 
@@ -47,38 +52,47 @@ public class RoundViewModel {
             delta[i] = 0;
         }
 
-        for (int i = 0; i < teamsPlaying.size(); i++) {
-            for (int j = 0; j < words.size(); j++) {
+        ArrayList<String> names = new ArrayList<>();
+        for (int i = 0; i < this.teamsPlaying.size(); i++) {
+            names.add(teamsPlaying.get(i).getTeamName());
+        }
 
-                if (words.get(j).getGuessed() == false && copyOfWords.get(j).getGuessed() == true) {
 
-                    delta[i] += -1;             //тут прохэндилить нужно ли отнимать
-                                                //это в настройках чекать по всей игре
-                                                //ахтунг!!!
-                }
+        for (int j = 0; j < words.size(); j++)
+        {
 
-                if (words.get(j).getGuessed() == true && copyOfWords.get(j).getGuessed() == false) {
+            int index = names.indexOf(words.get(j).getTeamName());
 
-                    delta[i] += 1;
-                }
+            if (words.get(j).getGuessed() == false && copyOfWords.get(j).getGuessed() == true) {
 
+                delta[index] += -2; //тут прохэндилить нужно ли отнимать
+//это в настройках чекать по всей игре
+//ахтунг!!!
             }
+
+            if (words.get(j).getGuessed() == true && copyOfWords.get(j).getGuessed() == false) {
+
+                delta[index] += 2;
+            }
+
         }
+
 
         for (int i = 0; i < teamsPlaying.size(); i++) {
-            int oldGuessedCount = teamsPlaying.get(i).getGuessedCount();
+            Long oldGuessedCount = teamsPlaying.get(i).getGuessedCount();
             oldGuessedCount += delta[i];
+            teamsPlaying.get(i).setGuessedCount(oldGuessedCount);
         }
 
-        //ахтунг чек
+//ахтунг чек
 
         databaseInstance.beginTransaction();
-
-        databaseInstance.copyToRealm(words);
-        databaseInstance.copyToRealm(teamsPlaying);     //ахтунг чек
-
+        databaseInstance.copyToRealm(teamsPlaying); //ахтунг чек
         databaseInstance.commitTransaction();
 
+        databaseInstance.beginTransaction();
+        databaseInstance.copyToRealm(words);
+        databaseInstance.commitTransaction();
     }
 
     public void clearRoundResult(final int roundNumber) {
