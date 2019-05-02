@@ -55,6 +55,7 @@ public class TeamsView extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+               if (teamsAdapter.getItemCount() != 0)
                 openSettingActivity();
             }
         });

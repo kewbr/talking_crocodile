@@ -439,7 +439,6 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
     {
         Intent intent = new Intent(this, FinishView.class);
         intent.putExtra("Team Name",vm.round.getCurrentTeam().teamName);
-        intent.putExtra("Team Rating", vm.round.getCurrentTeam().getRating());
         startActivity(intent);
     }
 

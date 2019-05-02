@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         android:fontFamily="monospace"
         android:textSize="15sp" />
 
@@ -17,6 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         android:textSize="15sp" />
 
 </FrameLayout>
