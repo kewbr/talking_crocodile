@@ -49,6 +49,7 @@ public class FinishView extends AppCompatActivity {
     public void goToMenu(View view) {
         switch (view.getId()) {
             case R.id.goToMenu:
+
                 finish();
                 break;
             default:

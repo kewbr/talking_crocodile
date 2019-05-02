@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">talking_crocodile</string>
+    <string name="app_name">Говорящий крокодил</string>
     <string name="filler">filler</string>
     <string name="Rules">Правила</string>
     <string name="Resume">Продолжить</string>

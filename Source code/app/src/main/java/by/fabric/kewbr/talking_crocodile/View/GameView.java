@@ -17,6 +17,7 @@ import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,15 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         vm = new GameViewModel(this.getApplicationContext());
         vm.addObserver(this);
-        timerTimeConstant = vm.roundTimer;/// vm.round.getTeamCount();
-
-        startRoundScreen();
+        if(vm.roundTimer > 0) {
+            timerTimeConstant = vm.roundTimer;/// vm.round.getTeamCount();
+            startRoundScreen();
+        }
+        else {
+            Log.i("Continue","No log");
+            super.onStop();
+            finish();
+        }
 
     }
 

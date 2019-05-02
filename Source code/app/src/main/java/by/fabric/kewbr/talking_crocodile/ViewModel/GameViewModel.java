@@ -57,7 +57,10 @@ public class GameViewModel extends Observable {
         }
 
         round = new Round(list);
+        if(round.getTeamCount()>0)
         myTeam = round.getCurrentTeam();
+        else
+            return;
         //counterTemp = round.getTeamCount();
         Log.i("Settings"," " + gameSettingsViewModel.settings.getWordsForWinCount());
         Log.i("Settings"," " + gameSettingsViewModel.settings.getDurationOfRound());
