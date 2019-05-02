@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import by.fabric.kewbr.talking_crocodile.Adapter.FinishAdapter;
 import by.fabric.kewbr.talking_crocodile.Adapter.RoundWordsAdapter;
 import by.fabric.kewbr.talking_crocodile.Adapter.StartRoundAdapter;
 import by.fabric.kewbr.talking_crocodile.R;

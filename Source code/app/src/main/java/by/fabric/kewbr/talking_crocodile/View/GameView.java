@@ -74,7 +74,7 @@ public class GameView extends AppCompatActivity  implements View.OnTouchListener
 
         vm = new GameViewModel(this.getApplicationContext());
         vm.addObserver(this);
-        timerTimeConstant = vm.roundTimer/ vm.round.getTeamCount();
+        timerTimeConstant = vm.roundTimer;/// vm.round.getTeamCount();
 
         startRoundScreen();
 

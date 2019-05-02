@@ -62,7 +62,7 @@ public class GameViewModel extends Observable {
         Log.i("Settings"," " + gameSettingsViewModel.settings.getWordsForWinCount());
         Log.i("Settings"," " + gameSettingsViewModel.settings.getDurationOfRound());
         roundTimer = this.gameSettingsViewModel.settings.getDurationOfRound()*1000;
-        timer = new CountDownTimer((this.gameSettingsViewModel.settings.getDurationOfRound()*1000)/round.getTeamCount(),  1000) {
+        timer = new CountDownTimer((this.gameSettingsViewModel.settings.getDurationOfRound()*1000),  1000) {
 
             public void onTick(long millisUntilFinished) {
                 roundTimer = millisUntilFinished;
